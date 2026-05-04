@@ -16,7 +16,8 @@ if __name__ == "__main__":
         print("⚠️  Warning: ibt_parser.py not found or import failed.")
     
     print(f"  Database:      {DB_PATH}")
-    print("\nURL:  http://127.0.0.1:8050\n")
+    print("\n[TIP] For the Professional Desktop Edition, run 'Launch_Desktop.bat'")
+    print("URL:  http://127.0.0.1:8050\n")
     
     # Run the Dash server
     # debug=True can be used for development
