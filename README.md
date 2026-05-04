@@ -1,5 +1,9 @@
 # iRacing Telemetry Analytics (Professional Desktop Edition)
 
+[![Python CI](https://github.com/UmutSemihSoyer/iracing-telemetry-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/UmutSemihSoyer/iracing-telemetry-analytics/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+
 ![Dashboard Preview](assets/dashboard_preview.png)
 
 A high-performance, **native desktop platform** for professional **iRacing** telemetry analysis. Built with Python for data science and **Electron** for a premium desktop experience.
