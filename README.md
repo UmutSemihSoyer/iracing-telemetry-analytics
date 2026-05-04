@@ -1,5 +1,7 @@
 # iRacing Telemetry Analytics
 
+![Dashboard Preview](assets/dashboard_preview.png)
+
 A professional-grade, real-time telemetry analysis platform for **iRacing** simulation racing. Load `.ibt` telemetry files, analyze your driving data with advanced physics calculations, and get AI-powered feedback — all through an interactive web dashboard.
 
 > **Built with:** Python · Plotly Dash · SQLite · scikit-learn · ReportLab
