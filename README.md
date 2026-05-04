@@ -1,10 +1,18 @@
-# iRacing Telemetry Analytics
+# iRacing Telemetry Analytics (Professional Desktop Edition)
 
 ![Dashboard Preview](assets/dashboard_preview.png)
 
-A professional-grade, real-time telemetry analysis platform for **iRacing** simulation racing. Load `.ibt` telemetry files, analyze your driving data with advanced physics calculations, and get AI-powered feedback — all through an interactive web dashboard.
+A high-performance, **native desktop platform** for professional **iRacing** telemetry analysis. Built with Python for data science and **Electron** for a premium desktop experience.
 
-> **Built with:** Python · Plotly Dash · SQLite · scikit-learn · ReportLab
+---
+
+## 🖥️ Professional Desktop Experience
+
+Unlike basic telemetry scripts, this platform is designed as a standalone desktop application:
+- **Electron Integration:** Runs in a dedicated window with a native look and feel.
+- **Native File Dialogs:** Seamlessly browse your `Documents/iRacing/telemetry` folder using OS-native pickers.
+- **Standalone Execution:** Can be packaged into a single `.exe` for easy distribution.
+- **High Performance:** Multi-process architecture (Python backend + Electron frontend).
 
 ---
 
@@ -15,12 +23,10 @@ A professional-grade, real-time telemetry analysis platform for **iRacing** simu
 - **Corner & Sector Detection:** Uses track position and G-Force data to automatically detect corners and divide the circuit into sectors.
 - **Advanced Telemetry Metrics:** Calculates slip angle, trail braking score, throttle application points, and more.
 - **Tire Analysis:** Deep dive into tire behavior, temperature distribution, and degradation patterns across a stint.
-- **Anomaly Detection:** Identifies unusual data patterns (e.g., lock-ups, spins) automatically.
 - **Setup Advisor:** Provides data-driven car setup recommendations based on telemetry evidence.
 - **AI-Powered Feedback:** Analyzes driving telemetry and delivers coaching feedback to help improve lap times.
-- **Interactive Dashboard (Dash/Plotly):** Multi-tab interface for Overview, Dynamics, Brakes, Tires, and GPS Map views.
+- **Interactive Dashboard:** Multi-tab interface for Overview, Dynamics, Brakes, Tires, and GPS Map views.
 - **PDF Report Export:** Generates professional session reports with charts and analysis.
-- **Desktop App (Electron):** Can be packaged as a standalone desktop application.
 
 ---
 
@@ -28,26 +34,14 @@ A professional-grade, real-time telemetry analysis platform for **iRacing** simu
 
 ```
 iracingf1/
-├── main.py                # Entry point
-├── app.py                 # Dash application & server
-├── config.yaml            # Application configuration
-├── core/
-│   ├── ibt_parser.py      # Binary .ibt file reader → DataFrame
-│   ├── lap_classifier.py  # Lap type detection & timing
-│   ├── corner_detector.py # Corner & sector segmentation
-│   ├── telemetry_metrics.py # Advanced physics calculations
-│   ├── tire_analysis.py   # Tire behavior analysis
-│   └── anomaly_detector.py # Anomaly detection
-├── services/
-│   ├── database.py        # SQLite session persistence
-│   ├── telemetry_service.py # High-level data processing
-│   ├── pdf_report.py      # PDF report generation
-│   ├── setup_advisor.py   # Car setup recommendations
-│   └── ai_feedback.py     # AI coaching feedback
-├── ui/                    # Dash layout & callbacks
-├── plotting/              # Plotly chart templates (GPS, overlays)
-├── assets/                # CSS, images, static files
-└── electron/              # Desktop app packaging
+├── electron/              # Desktop app wrapper (Main & Preload)
+├── app.py                 # Core Dash application server
+├── main.py                # Launcher
+├── core/                  # Data science engine (Physics & ML)
+├── services/              # Persistence, PDF & AI services
+├── ui/                    # Dash UI components
+├── plotting/              # Professional chart templates
+└── assets/                # Styling and branding
 ```
 
 ---
