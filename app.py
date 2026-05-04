@@ -86,7 +86,6 @@ except ImportError:
 DB_PATH = Path('iracing_sessions.db')
 SAVED_DATA_DIR = Path('saved_sessions')
 SAVED_DATA_DIR.mkdir(exist_ok=True)
-DEFAULT_STACK_CHANNELS = ['Speed', 'Throttle', 'Brake', 'RPM', 'Gear', 'LatAccel']
 
 def fig_brake_consistency(zones_df: pd.DataFrame, mode: str='dark') -> go.Figure:
     'Scatter: track position vs peak brake pressure — consistency view.'
@@ -156,6 +155,7 @@ Annotations:
     return buf.getvalue()
 _DATA = {}
 db_init()
+IS_ELECTRON = os.environ.get('ELECTRON_RUN_AS_NODE', '') == '1'
 app = dash.Dash(__name__, title='iRacing Telemetry v9.0', external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
 
 from ui.layout import create_layout
@@ -321,7 +321,6 @@ def run_analysis(_, contents, filenames, names, box_paths, compound, downsample,
 
 @app.callback(Output('tab-content', 'children', allow_duplicate=True), Input('tabs', 'value'), Input('unit-store', 'data'), State('theme-store', 'data'), State('session-id-store', 'data'), State('color-store', 'data'), prevent_initial_call=True)
 def switch_tab(tab, unit, mode, session_id, colors):
-    global _DATA
     dfs = _DATA.get('dfs', [])
     metas = _DATA.get('metas', [])
     tas = _DATA.get('tas', [])
@@ -471,7 +470,6 @@ def restore_session(n_clicks, mode):
             tas.append(TireAnalyzer(df, opt_range=preset['surface']))
         except Exception:
             pass
-    global _DATA
     _DATA.update({'dfs': dfs, 'metas': metas, 'tas': tas, 'mode': mode})
     total = len(df)
     driver = meta.get('driver_name', '?')
@@ -538,7 +536,7 @@ def _make_upload_callback(i):
         return [html.Div('✅', style={'fontSize': '18px'}), html.Div('File Ready', style={'fontSize': '10px', 'marginTop': '2px', 'color': '#00D4AA'})]
 for i in range(1, 7):
     _make_upload_callback(i)
-import core.lap_classifier
+import core.lap_classifier as lap_classifier
 print(f"DEBUG: Using lap_classifier version: {getattr(lap_classifier, '__VERSION__', 'OLD')}")
 print(f'DEBUG: lap_classifier path: {lap_classifier.__file__}')
 

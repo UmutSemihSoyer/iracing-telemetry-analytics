@@ -3,6 +3,8 @@ from dash import html, dcc, dash_table
 from ui.components import card, btn, inp, G
 from utils import TH, apply_theme
 import numpy as np
+from pathlib import Path
+from services.database import db_load_sessions, DB_PATH
 
 # Placeholders for plotting functions that will be imported in app.py or here
 
