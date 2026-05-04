@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+Thumbs.db
+
+# Virtual Environments
+venv/
+env/
+.venv/
+
+# Database (auto-generated)
+*.db
+*.sqlite3
+
+# Session & Telemetry Files (user-specific, large binary files)
+saved_sessions/
+*.ibt
+
+# Generated Reports
+*.pdf
+
+# Logs & Temp
+*.log
+*.tmp
+fails.txt
+
+# Agent / Internal Tooling
+.agent/
+
+# Node (Electron)
+node_modules/
+electron/node_modules/
+dist/
+out/

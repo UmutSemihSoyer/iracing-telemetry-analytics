@@ -1,0 +1,60 @@
+{
+  "name": "iracing-telemetry",
+  "productName": "iRacing Telemetry Analytics",
+  "version": "9.1.0",
+  "description": "Professional iRacing Telemetry Analysis tool.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder build --win",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "author": "Curve Hunters",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.curvehunters.iracingtelemetry",
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "../app.py",
+      "../data_loader.py",
+      "../database.py",
+      "../config.py",
+      "../utils.py",
+      "../ibt_parser.py",
+      "../corner_detector.py",
+      "../lap_classifier.py",
+      "../tire_analysis.py",
+      "../pdf_report.py",
+      "../ai_feedback.py",
+      "../setup_advisor.py",
+      "../anomaly_detector.py",
+      "../telemetry_metrics.py",
+      "../ui/**/*",
+      "../plotting/**/*",
+      "../assets/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "../python_embed",
+        "to": "python_embed"
+      }
+    ]
+  }
+}

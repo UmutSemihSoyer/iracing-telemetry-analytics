@@ -1,0 +1,23 @@
+app:
+  version: "9.1.0"
+  title: "iRacing Telemetry Analytics"
+  edition: "Professional Edition"
+
+performance:
+  max_records: null
+  default_downsample: 1
+
+ui:
+  default_theme: "dark"
+  default_unit: "metric"
+  stack_channels:
+    - "Speed"
+    - "Throttle"
+    - "Brake"
+    - "RPM"
+    - "Gear"
+    - "LatAccel"
+
+paths:
+  db_path: "iracing_sessions.db"
+  saved_sessions_dir: "saved_sessions"
