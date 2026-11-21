@@ -92,6 +92,21 @@
    "{\"id\": \"theme-store\", \"property\": \"data\"}"
   ]
  },
+ "..tab-content.children@35a3b4364ed9a6188d910517ba82d342859c3f25f98c6a3fadd336b10bb9e0fa...upload-status.children@35a3b4364ed9a6188d910517ba82d342859c3f25f98c6a3fadd336b10bb9e0fa..": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"load-team-btn\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"compound-dd\", \"property\": \"value\"}",
+   "{\"id\": \"downsample-dd\", \"property\": \"value\"}",
+   "{\"id\": \"folder-input\", \"property\": \"value\"}",
+   "{\"id\": \"team-track-dd\", \"property\": \"value\"}",
+   "{\"id\": \"theme-store\", \"property\": \"data\"}",
+   "{\"id\": \"unit-store\", \"property\": \"data\"}"
+  ]
+ },
  "..tab-content.children@767b8a19e4ec35da915d4d2aa36b5b0f9e4a3c8188bd9e4bcba450ef7d8c1cdc...upload-status.children@767b8a19e4ec35da915d4d2aa36b5b0f9e4a3c8188bd9e4bcba450ef7d8c1cdc..": {
   "clientside": false,
   "inputs": [
