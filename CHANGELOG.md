@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed (Faz 3)
+- `app.py` 725 satırdan ~45 satıra indi. Paylaşılan bağlam `app_context.py`'de, callback'ler `ui/callbacks/{ui,data,tab,session,export}_callbacks.py` altında. Davranış değişmedi: 41 callback'in id/input/state haritası altın kopyayla birebir aynı (`tests/golden_callbacks.json`).
+- Hata/uyarı `print`'leri `utils.logger` ile loglanıyor; çıplak `except:` kalmadı.
+
+### Fixed (Faz 3)
+- Yeni plotly sürümlerinde `go.Scattermapbox` kaldırıldığı için Dynamics sekmesi çöküyordu; `go.Scattermap` kullanılıyor (eski sürümlerde otomatik geri dönüş). `requirements.txt`: `plotly>=5.24.0`.
+- Eksik kanal içeren dosyada (ör. Brake/Throttle yok) sekmeler 500 ile çöküyordu; artık hata loglanıp okunur bir uyarı gösteriliyor.
+
+### Added (Faz 3)
+- Tarayıcısız uçtan uca testler (`tests/test_app_e2e.py`, `tests/dash_client.py`): Flask test client ile gerçek `/_dash-update-component` yolundan her sekmeyi ve pit penceresi callback'ini çağırır.
+
 ### Added (Faz 2)
 - ⛽ **Fuel & Stints** sekmesi: KPI'lar, yakıt seviyesi grafiği (pit çizgileriyle), tur başı tüketim, stint karşılaştırma, stint ve pit durak tabloları, pit penceresi hesaplayıcı (tank + kalan tur).
 - `services/fuel_service.py` (`lap_fuel_table`, `stint_summary`, `pit_stops`, `pit_window`), `plotting/fuel.py`, `ui/tabs/fuel.py` ve testleri.

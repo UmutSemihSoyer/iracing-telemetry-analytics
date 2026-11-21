@@ -11,6 +11,9 @@ import numpy as np
 import pandas as pd
 from typing import List, Dict, Optional
 
+from utils.logger import get_logger
+log = get_logger(__name__)
+
 __VERSION__ = "1.0.0"
 
 # Minimum sessions needed to run anomaly detection
@@ -190,7 +193,7 @@ def detect_anomalies(current_metrics: dict,
     except ImportError:
         pass  # sklearn not available — z-score analysis still works
     except Exception as e:
-        print(f"IsolationForest error: {e}")
+        log.error(f"IsolationForest error: {e}")
 
     # Sort: anomalies first, then notable
     severity_order = {"anomaly": 0, "notable": 1, "info": 2, "normal": 3}

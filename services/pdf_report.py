@@ -44,6 +44,9 @@ try:
 except ImportError:
     SETUP_ADVISOR_OK = False
 
+from utils.logger import get_logger
+log = get_logger(__name__)
+
 # ════════════════════════════════════════════════════════════════════════════
 # COLORS
 # ════════════════════════════════════════════════════════════════════════════
@@ -141,10 +144,10 @@ def _fig2img(fig, wcm=17, hcm=9, timeout=15):
     t.join(timeout)
 
     if t.is_alive():
-        print(f" (TIMEOUT after {timeout}s)")
+        log.warning("Chart render timeout after %ss", timeout)
         return None
     if res["err"]:
-        print(f" (ERROR: {res['err']})")
+        log.error("Chart render error: %s", res['err'])
     return res["img"]
 
 def _fig_block(story, fig, title, st, wcm=17, hcm=9):
@@ -463,7 +466,7 @@ def build_pdf(dfs, metas, tire_analyzers=None, extra_figs=None, session_date="")
             try:
                 feedback_items = generate_feedback(df)
             except Exception as _e:
-                print(f"AI error: {_e}")
+                log.error(f"AI feedback error: {_e}")
                 feedback_items = []
             
             prio_color_ai = {"critical": C["bad"], "improvement": C["warn"], "good": C["good"], "warning": C["warn"], "info": C["subtext"]}
@@ -542,7 +545,7 @@ def build_pdf(dfs, metas, tire_analyzers=None, extra_figs=None, session_date="")
         vals = []
         for df in dfs:
             try:    vals.append(fn(df))
-            except: vals.append("-")
+            except Exception: vals.append("-")
         try:
             num_vals = [float(v) for v in vals]
             winner   = dfs[num_vals.index(max(num_vals))]["Driver"].iloc[0]

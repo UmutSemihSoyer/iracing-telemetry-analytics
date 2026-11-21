@@ -12,6 +12,9 @@ from dash import html, dcc
 from ui.components import card, G
 from utils import TH
 
+from utils.logger import get_logger
+log = get_logger(__name__)
+
 
 def _render_setup_advisor(dfs, metas, mode, unit="metric"):
     """Main render function for the Setup Advisor tab."""
@@ -371,7 +374,7 @@ def _build_anomaly_section(dfs, t, C_):
         historical = db_load_all_metrics()
         anomalies = detect_anomalies(current_metrics, historical)
     except Exception as e:
-        print(f"Anomaly detection error: {e}")
+        log.error(f"Anomaly detection error: {e}")
         return []
 
     if not anomalies:

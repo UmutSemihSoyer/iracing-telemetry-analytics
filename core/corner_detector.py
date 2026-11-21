@@ -1076,7 +1076,7 @@ def compute_abs_tc_events(df: pd.DataFrame, hz: float = 60.0) -> dict:
         abs_vals = best[abs_col].values
         try:
             abs_vals = abs_vals.astype(float)
-        except:
+        except (TypeError, ValueError):
             pass
         active = (abs_vals > 0.5).astype(int)
         transitions = np.diff(active, prepend=0)
@@ -1106,7 +1106,7 @@ def compute_abs_tc_events(df: pd.DataFrame, hz: float = 60.0) -> dict:
         tc_vals = best[tc_col].values
         try:
             tc_vals = tc_vals.astype(float)
-        except:
+        except (TypeError, ValueError):
             pass
         active = (tc_vals > 0.5).astype(int)
         transitions = np.diff(active, prepend=0)

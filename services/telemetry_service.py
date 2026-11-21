@@ -19,6 +19,9 @@ try:
 except ImportError:
     CORNER_OK = False
 
+from utils.logger import get_logger
+log = get_logger(__name__)
+
 def detect_laps(df):
     """Detect lap boundaries — delegates to lap_classifier for consistency."""
     from core.lap_classifier import classify_laps
@@ -153,7 +156,7 @@ def _enrich(df):
                     corners = detect_corners(best)
                     df = label_segments(df, corners)
             except Exception as e:
-                print(f"Corner detection warning: {e}")
+                log.warning(f"Corner detection warning: {e}")
     # Classify outlap / inlap / flying — always run after laps are detected
     try:
         from core.lap_classifier import classify_laps
