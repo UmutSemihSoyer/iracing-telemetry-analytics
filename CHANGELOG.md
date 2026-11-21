@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed (paketleme / başlatma)
+- `electron/package.json` `build.files` listesi eski düz dosya düzenine göre yazılmıştı (`../ibt_parser.py` vb.); mevcut `core/`, `services/`, `models/`, `utils/`, `app_context.py`, `main.py`, `config.yaml` düzenine güncellendi, test mevcut yolları doğrular. Paketli `.exe` derlemesi denenmedi.
+- `python app.py` artık `--port` bayrağını dikkate alır (bilinmeyen `--electron` yok sayılır).
+
+### Notes
+- Büyük dosyalar için tembel yükleme yapılmadı: ölçüm — 235 MB dosya tam ayrıntıyla 2,5 sn, ~170 MB bellek; mevcut Endurance/Ultra Lazy downsample modları yeterli.
+
 ### Added (Faz 6c)
 - 🔧 **Setup differences** (Team sekmesi): yüklü dosyalar arasında farklı olan sayısal setup parametreleri (dosyaların içine gömülü `CarSetup`'tan), sürücü bazında ve fark (Spread) ile. Tanımlayıcıdır; birkaç dosyayla neden-sonuç çıkarılamayacağı için korelasyon/tahmin yok.
 - Setup sınıflandırma ML modeli bilinçli olarak yapılmadı: veritabanında etiketli setup yok (2 oturum, 0 setup) ve pist başına 2–5 dosya istatistiksel olarak yetersiz.
