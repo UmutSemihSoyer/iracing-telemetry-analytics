@@ -287,3 +287,38 @@ def fig_gps_speed(dfs, mode,unit='metric'):
     fig.update_yaxes(scaleanchor="x", scaleratio=1, showticklabels=False, showgrid=False, zeroline=False)
     fig.update_xaxes(showticklabels=False, showgrid=False, zeroline=False)
     return apply_theme(fig, f"🗺️ GPS — Speed ({display_unit})", mode)
+
+
+def fig_apex_brake_map(df: pd.DataFrame, mode: str = "dark", unit: str = "metric") -> go.Figure:
+    """En iyi tur çizgisi üzerinde fren noktaları (▼) ve apex'ler (●)."""
+    from services.track_markers import corner_markers
+    t = TH(mode)
+    fig = go.Figure()
+    best = best_lap_df(df)
+    marks = corner_markers(df)
+    if best is None or "Lat" not in best.columns or not marks:
+        fig.add_annotation(text="Apex / brake markers need GPS, Speed and steering data",
+                           showarrow=False, font=dict(color=t["subtext"]))
+        fig.update_layout(height=520)
+        return apply_theme(fig, "Apex & braking points", mode)
+    fig.add_trace(go.Scatter(x=best["Lon"], y=best["Lat"], mode="lines",
+                             line=dict(color=t["border"], width=4),
+                             hoverinfo="skip", showlegend=False))
+    k, u = (3.6, "km/h") if unit == "metric" else (2.23694, "mph")
+    ap = marks
+    fig.add_trace(go.Scatter(
+        x=[m["apex_lon"] for m in ap], y=[m["apex_lat"] for m in ap],
+        mode="markers+text", text=[f"T{m['corner']}" for m in ap], textposition="top center",
+        marker=dict(size=10, color="#38bdf8"), name="Apex",
+        customdata=[[m["corner"], m["apex_speed"] * k, m["direction"]] for m in ap],
+        hovertemplate="T%{customdata[0]} (%{customdata[2]}) apex<br>%{customdata[1]:.0f} " + u + "<extra></extra>"))
+    br = [m for m in marks if m["brake_lat"] is not None]
+    fig.add_trace(go.Scatter(
+        x=[m["brake_lon"] for m in br], y=[m["brake_lat"] for m in br], mode="markers",
+        marker=dict(size=11, color="#ef4444", symbol="triangle-down"), name="Brake point",
+        customdata=[[m["corner"], m["brake_pct"] * 100] for m in br],
+        hovertemplate="T%{customdata[0]} brake<br>%{customdata[1]:.1f}% lap<extra></extra>"))
+    fig.update_yaxes(scaleanchor="x", showgrid=False, visible=False)
+    fig.update_xaxes(showgrid=False, visible=False)
+    fig.update_layout(height=520)
+    return apply_theme(fig, "Apex & braking points", mode)

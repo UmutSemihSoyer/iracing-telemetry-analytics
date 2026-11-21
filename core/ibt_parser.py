@@ -675,6 +675,8 @@ CHANNEL_MAP = {
 
     # Tur & Zaman
     "Lap":               "Lap",
+    "SessionFlags":      "SessionFlags",
+    "PaceMode":          "PaceMode",
     "LapCurrentLapTime": "LapCurrentTime",
     "LapLastLapTime":    "LapLastTime",
     "LapBestLapTime":    "LapBestTime",
