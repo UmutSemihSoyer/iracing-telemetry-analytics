@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Fixed
+- `detect_stints`: pit turu + yakıt dolumu aynı pit'i iki kez sayıyordu (stint sayısı şişiyordu). Ardışık pit turları artık tek pit; ilk turda garajdan çıkış stint ayırmaz.
+- `_enrich`: `LapDistPct` sabitken (araç pitte/garajda) `pd.cut` "Bin edges must be unique" ile çöküyordu; mikro sektörler artık sabit 0-1 kenarlarla hesaplanıyor.
+- `predict_fuel_strategy` artık numpy yerine düz `float` döndürüyor.
+
+### Added
+- Sentetik telemetri üreticisi (`tests/synthetic.py`) ve `lap_classifier`, `detect_stints`, `predict_fuel_strategy`, `_enrich` testleri.
+- Gerçek `.ibt` duman testi (`IBT_TEST_FILE` / `IBT_TEST_DIR`, `pytest -m realdata`).
+- CI'da `pytest-cov` coverage raporu.
+
 ## [9.1.0] - 2026-05-04
 
 ### Added
