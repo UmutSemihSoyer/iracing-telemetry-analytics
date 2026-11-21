@@ -108,3 +108,37 @@ def test_lap_time_uses_last_lastlaptime_value_not_stale_max():
     out = classify_laps(df, HZ)
     got = out.groupby("LapNumber")["LapTime_s"].first()
     assert got[2] == pytest.approx(59.0)     # eski kod 61.0 (stale max) dönerdi
+
+
+def _with_caution(df, lap, frac, col="SessionFlags", value=0x4000):
+    df = df.copy()
+    default = 0 if col == "SessionFlags" else 4
+    df[col] = default
+    idx = df[df.LapNumber == lap].index
+    df.loc[idx[: int(len(idx) * frac)], col] = value
+    return df
+
+
+@pytest.mark.parametrize("col,value", [("SessionFlags", 0x4000),
+                                       ("SessionFlags", 0x8000)])
+def test_caution_lap_is_safety_car(col, value):
+    df = _with_caution(make_session(n_laps=6), 3, 0.6, col, value)
+    t = types(classify_laps(df, HZ))
+    assert t[3] == "Safety Car"
+    assert t[2] == FLYING and t[4] == FLYING
+
+
+def test_short_caution_not_safety_car():
+    df = _with_caution(make_session(n_laps=6), 3, 0.1)
+    assert types(classify_laps(df, HZ))[3] == FLYING
+
+
+def test_other_flags_ignored():
+    df = _with_caution(make_session(n_laps=5), 3, 1.0, value=0x0008)  # yellow only
+    assert types(classify_laps(df, HZ))[3] == FLYING
+
+
+def test_pacemode_alone_is_ignored():
+    # gerçek yarış dosyalarında PaceMode tüm oturum boyunca 4 dışı kalabiliyor
+    df = _with_caution(make_session(n_laps=5), 3, 1.0, col="PaceMode", value=1)
+    assert types(classify_laps(df, HZ))[3] == FLYING

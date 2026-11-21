@@ -5,7 +5,7 @@ from utils import TH, apply_theme
 import numpy as np
 import pandas as pd
 from services.telemetry_service import best_lap_df
-from plotting.gps_maps import fig_mini_sector_map
+from plotting.gps_maps import fig_mini_sector_map, fig_apex_brake_map
 from plotting.overlays import fig_corner_comparison
 
 try:
@@ -199,6 +199,15 @@ def _render_sectors(dfs, mode, ref_mode="best_of_each"):
                           config={"displayModeBar": True},
                           style={"height": "520px"}),
             ]),
+        ]),
+        # Apex & braking points (best lap of the first dataset)
+        html.Div(style={**C_, "marginTop": "16px", "padding": "16px 20px"}, children=[
+            html.H4("🎯 Apex & Braking Points", style={"margin": "0 0 4px"}),
+            html.P("Red ▼ = where braking starts, blue ● = apex (minimum speed), taken from the best lap.",
+                   className="section-description"),
+            dcc.Graph(id="sectors-apex-brake-graph",
+                      figure=fig_apex_brake_map(dfs[0], mode=mode),
+                      config={"displayModeBar": True}, style={"height": "520px"}),
         ]),
         # Delta Comparison Bar Chart
         html.Div(style={**C_, "marginTop": "16px", "padding": "16px 20px"}, children=[

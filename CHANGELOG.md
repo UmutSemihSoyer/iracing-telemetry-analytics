@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added (Faz 4)
+- 🎯 **Apex & Braking Points** haritası (Sectors sekmesi): en iyi turda her viraj için fren başlangıcı (▼) ve apex (●, minimum hız). `services/track_markers.py`, `plotting/gps_maps.fig_apex_brake_map`, testleri.
+- `SessionFlags` ve `PaceMode` kanalları artık dashboard DataFrame'ine alınıyor.
+- Safety Car tespiti: bir turun en az %30'unda caution bayrağı (0x4000/0x8000) açıksa tur "Safety Car" olur (pit turları önceliklidir; eski hız/süre sezgisi yedek olarak durur).
+
+### Notes (Faz 4)
+- `PaceMode` bilinçli olarak kullanılmıyor: gerçek Sebring yarış dosyasında tüm oturum boyunca 4 dışı kalıp her turu yanlışlıkla Safety Car yapıyordu.
+
 ### Changed (Faz 3)
 - `app.py` 725 satırdan ~45 satıra indi. Paylaşılan bağlam `app_context.py`'de, callback'ler `ui/callbacks/{ui,data,tab,session,export}_callbacks.py` altında. Davranış değişmedi: 41 callback'in id/input/state haritası altın kopyayla birebir aynı (`tests/golden_callbacks.json`).
 - Hata/uyarı `print`'leri `utils.logger` ile loglanıyor; çıplak `except:` kalmadı.

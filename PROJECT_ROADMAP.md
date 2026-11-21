@@ -12,7 +12,7 @@ Bu döküman, projenin mevcut durumu, yapılması gereken teknik iyileştirmeler
 | 1 | Sentetik veriyle testler: `lap_classifier`, `detect_stints`, `predict_fuel_strategy`; CI'da coverage; gerçek .ibt ile duman testi | ✅ |
 | 2 | Yakıt/Stint sekmesi: tur başı tüketim, pit penceresi, pit durak analizi, stint karşılaştırma (sürücü değişimi tespiti: tek dosyada ayırt edilemez, Faz 5'te dosya bazlı) | ✅ |
 | 3 | `app.py`'yi `ui/callbacks` modüllerine bölme ✅, logging (`utils/logger`) ✅, `except:` temizliği ✅, sekme hata yönetimi ✅; büyük dosya performansı (lazy loading) ⏳ | 🟡 |
-| 4 | Safety car tespiti, apex/fren noktası işaretleri (teorik en iyi tur zaten mevcut) | ⏳ |
+| 4 | Safety car tespiti, apex/fren noktası işaretleri (teorik en iyi tur zaten mevcut) | ✅ |
 | 5 | Takım entegrasyonu: AutoTelemetry ile inen çok sürücülü dosyaların toplu analizi, sürücü karşılaştırma | ⏳ |
 | 6 | ML (anomali, setup sınıflandırma) | ⏳ |
 
@@ -27,7 +27,7 @@ Bu döküman, projenin mevcut durumu, yapılması gereken teknik iyileştirmeler
 - [x] **Yakıt Analizi**: ⛽ Fuel & Stints sekmesi (tur başı tüketim, stint özeti, pit durakları, pit penceresi hesaplayıcı).
 - [ ] **Hata Yönetimi (Error Handling)**: Bozuk dosya veya eksik veri durumunda kullanıcıya dostane uyarılar gösterilmesi.
 - [ ] **Kanal Filtreleme Performansı**: Büyük dosyalarda (24h yarış) hızı artırmak için "Lazy Loading" veri okuma.
-- [ ] **Safety Car Tespiti**: Pace car turlarını otomatik tespit edip analiz dışı bırakma veya işaretleme.
+- [x] **Safety Car Tespiti**: Pace car turlarını otomatik tespit edip analiz dışı bırakma veya işaretleme.
 
 ---
 

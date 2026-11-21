@@ -34,6 +34,24 @@ ACTIVE_RESET = "Active Reset"
 OUTLAP_RATIO = 1.25
 
 
+# iRacing irsdk_Flags: caution = 0x4000, cautionWaving = 0x8000
+CAUTION_FLAG_MASK = 0x4000 | 0x8000
+CAUTION_LAP_FRACTION = 0.30  # share of a lap under caution to call it a Safety Car lap
+
+
+def _caution_fraction(lap_data) -> float:
+    """Fraction of samples in a lap with a caution flag set (0.0 if no SessionFlags).
+
+    PaceMode is deliberately NOT used: on real race files it stays != NotPacing for the
+    whole session (e.g. Sebring), which would label every lap a Safety Car lap.
+    """
+    if "SessionFlags" not in lap_data.columns or len(lap_data) == 0:
+        return 0.0
+    flags = lap_data["SessionFlags"].fillna(0).astype("int64")
+    return float(((flags & CAUTION_FLAG_MASK) != 0).mean())
+
+
+
 def classify_laps(df: pd.DataFrame, hz: float = 60.0) -> pd.DataFrame:
     """
     Adds 'LapType' column:  'Flying' | 'Outlap' | 'Inlap' | 'Unknown'
@@ -142,6 +160,11 @@ def classify_laps(df: pd.DataFrame, hz: float = 60.0) -> pd.DataFrame:
             else:
                 # Lap itself crossed pit road → both out and in
                 lap_types[lap] = OUTLAP
+            continue
+
+        # Full-course caution / pace car (SessionFlags bits or PaceMode)
+        if _caution_fraction(lap_data) >= CAUTION_LAP_FRACTION:
+            lap_types[lap] = "Safety Car"
             continue
 
         # Fallback: lap time threshold
