@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added (Faz 6b)
+- ⚠️ **Flagged laps** kartı (Overview): uçuş turlarında yavaş tur (medyana göre robust z-skor > 3.5 ve en az %2 yavaş) ve tur ortasında durma/spin (hız < 3 m/s, pit dışı) işaretlenir. `services/lap_anomalies.py` + testleri. Gerçek Watkins dosyalarında yavaş turlar durma/spin ile örtüştü, temiz turlar işaretlenmedi.
+
 ### Added (Faz 6)
 - 🔮 **Pace model** (Fuel & Stints sekmesi): tur süresi = taban + yakıt etkisi + lastik yaşı etkisi, Huber regresyonla (aykırı turlara dayanıklı). Yakıt ve yaş aynı stint içinde doğrusal bağlı olduğundan ayrıştırılamıyorsa tek "net trend" (sn/tur) raporlanır; R² ve kalite (good/fair/weak) gösterilir. `services/pace_model.py` (`fit_pace_model`, `predict_laps`, `stint_time`), `fig_pace_model`, testleri.
 - Gerçek Watkins verisinde uyum zayıf (R² ≈ 0.03–0.06): tur süreleri gürültü baskın; arayüz bunu açıkça söyler.
