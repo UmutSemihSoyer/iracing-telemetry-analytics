@@ -29,6 +29,7 @@ from ui.tabs.setup_log import _render_setup_log, _render_setup_delta
 from ui.tabs.setup_advisor import _render_setup_advisor
 from ui.tabs.database import _render_database
 from ui.tabs.tire import _render_tire_tab
+from ui.tabs.fuel import _render_fuel, pit_window_children
 
 # Config
 from config import DEFAULT_STACK_CHANNELS
@@ -374,9 +375,15 @@ def switch_tab(tab, unit, mode, session_id, colors):
         return _render_driving_style(dfs, mode)
     if (tab == 'tire'):
         return _render_tire_tab(dfs, mode, unit=unit)
+    if (tab == 'fuel'):
+        return _render_fuel(dfs, metas, mode)
     if (tab == 'ai_engineer'):
         return _render_ai_engineer(dfs, mode)
     return html.Div('Unknown tab.')
+
+@app.callback(Output('fuel-pit-window-out', 'children'), Input('fuel-tank-input', 'value'), Input('fuel-laps-left-input', 'value'), State('theme-store', 'data'), prevent_initial_call=True)
+def update_fuel_pit_window(tank, laps_left, mode):
+    return pit_window_children(_DATA.get('dfs', []), tank, laps_left, mode or 'dark')
 
 @app.callback(Output('tab-content', 'children', allow_duplicate=True), Input('channel-gps-dd', 'value'), State('theme-store', 'data'), prevent_initial_call=True)
 def update_channel_gps(channel, mode):

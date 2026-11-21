@@ -92,3 +92,19 @@ def test_lap_summary_columns():
 ])
 def test_fmt(sec, expected):
     assert _fmt(sec) == expected
+
+
+def test_lap_time_uses_last_lastlaptime_value_not_stale_max():
+    # Regresyon: LapLastTime yeni turun ilk örneklerinde bir önceki turun (daha büyük) süresini gösterir
+    df = make_session(n_laps=4)
+    df["LapLastLapTime"] = 0.0
+    true = {1: 61.0, 2: 59.0, 3: 60.0}
+    for lap, t in true.items():
+        m = df.LapNumber == lap + 1
+        idx = df[m].index
+        stale = true.get(lap - 1, 0.0)
+        df.loc[idx[:5], "LapLastLapTime"] = stale      # gecikmeli güncelleme
+        df.loc[idx[5:], "LapLastLapTime"] = t
+    out = classify_laps(df, HZ)
+    got = out.groupby("LapNumber")["LapTime_s"].first()
+    assert got[2] == pytest.approx(59.0)     # eski kod 61.0 (stale max) dönerdi
