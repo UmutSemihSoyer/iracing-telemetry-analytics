@@ -54,3 +54,24 @@ def test_duplicate_driver_names_get_suffix():
     s = driver_summary([a, b])
     assert len(set(s["Driver"])) == 2
     assert len(set(sector_delta_matrix([a, b]).index)) == 2
+
+
+def test_setup_diff_only_varying_numeric():
+    from services.team_service import setup_diff
+    dfs = two_drivers()          # Slow, Fast
+    metas = [{"auto_setup": {"fl_cold_p": 159.0, "rear_wing": 5.0, "tire_type": "Dry", "fl_hot_p": 180.0}},
+             {"auto_setup": {"fl_cold_p": 159.0, "rear_wing": 7.0, "tire_type": "Dry", "fl_hot_p": 190.0}}]
+    t = setup_diff(dfs, metas)
+    assert list(t.index) == ["rear_wing"]          # eşit olan, metin ve sıcak basınç elendi
+    assert t.loc["rear_wing", "Spread"] == 2.0
+
+
+def test_setup_diff_empty_without_metas():
+    from services.team_service import setup_diff
+    assert setup_diff(two_drivers(), []).empty
+    assert setup_diff(two_drivers(), [{}, {}]).empty
+
+
+def test_team_tab_with_metas_renders():
+    metas = [{"auto_setup": {"rear_wing": 5.0}}, {"auto_setup": {"rear_wing": 7.0}}]
+    assert _render_team(two_drivers(), "dark", metas) is not None

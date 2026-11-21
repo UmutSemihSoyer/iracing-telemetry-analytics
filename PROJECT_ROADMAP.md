@@ -14,7 +14,7 @@ Bu döküman, projenin mevcut durumu, yapılması gereken teknik iyileştirmeler
 | 3 | `app.py`'yi `ui/callbacks` modüllerine bölme ✅, logging (`utils/logger`) ✅, `except:` temizliği ✅, sekme hata yönetimi ✅; büyük dosya performansı (lazy loading) ⏳ | 🟡 |
 | 4 | Safety car tespiti, apex/fren noktası işaretleri (teorik en iyi tur zaten mevcut) | ✅ |
 | 5 | Takım entegrasyonu: AutoTelemetry ile inen çok sürücülü dosyaların toplu analizi, sürücü karşılaştırma | ✅ |
-| 6 | ML (anomali, setup sınıflandırma) | 🟡 (tur süresi modeli + tur anomali tespiti hazır; setup sınıflandırma sırada) |
+| 6 | ML (anomali, setup sınıflandırma) | 🟡 (tur süresi modeli, tur anomali tespiti, setup farkları hazır; setup sınıflandırma ML etiketli veri olmadığı için yapılmadı) |
 
 ---
 

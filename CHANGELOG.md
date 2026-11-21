@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added (Faz 6c)
+- 🔧 **Setup differences** (Team sekmesi): yüklü dosyalar arasında farklı olan sayısal setup parametreleri (dosyaların içine gömülü `CarSetup`'tan), sürücü bazında ve fark (Spread) ile. Tanımlayıcıdır; birkaç dosyayla neden-sonuç çıkarılamayacağı için korelasyon/tahmin yok.
+- Setup sınıflandırma ML modeli bilinçli olarak yapılmadı: veritabanında etiketli setup yok (2 oturum, 0 setup) ve pist başına 2–5 dosya istatistiksel olarak yetersiz.
+
+### Fixed (Faz 6c)
+- "Load team" ile yüklenen dosyalarda sürücü adı, pist klasöründen (ör. "Watkins") alınıyordu; artık kök altındaki sürücü klasöründen alınır (`load_ibt_from_path(driver_name=...)`).
+
 ### Added (Faz 6b)
 - ⚠️ **Flagged laps** kartı (Overview): uçuş turlarında yavaş tur (medyana göre robust z-skor > 3.5 ve en az %2 yavaş) ve tur ortasında durma/spin (hız < 3 m/s, pit dışı) işaretlenir. `services/lap_anomalies.py` + testleri. Gerçek Watkins dosyalarında yavaş turlar durma/spin ile örtüştü, temiz turlar işaretlenmedi.
 
