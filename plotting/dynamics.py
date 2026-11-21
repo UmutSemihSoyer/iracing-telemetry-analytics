@@ -40,7 +40,10 @@ def fig_slip_angle_map(dfs, mode="dark"):
     # Limit slip angle visualization to -15 to +15 degrees for better color scale
     slip = np.clip(d["SlipAngle"], -15, 15)
     
-    fig = go.Figure(go.Scattermapbox(
+    # plotly >= 5.24: Scattermap/layout.map; yeni sürümlerde Scattermapbox kaldırıldı
+    use_new_map = hasattr(go, "Scattermap")
+    scatter_cls = go.Scattermap if use_new_map else go.Scattermapbox
+    fig = go.Figure(scatter_cls(
         lat=d["Lat"], lon=d["Lon"],
         mode="markers",
         marker=dict(
@@ -58,12 +61,13 @@ def fig_slip_angle_map(dfs, mode="dark"):
     center_lat = d["Lat"].mean()
     center_lon = d["Lon"].mean()
 
+    map_cfg = dict(
+        style="carto-darkmatter" if mode=="dark" else "carto-positron",
+        center=dict(lat=center_lat, lon=center_lon),
+        zoom=14.5
+    )
     fig.update_layout(
-        mapbox=dict(
-            style="carto-darkmatter" if mode=="dark" else "carto-positron",
-            center=dict(lat=center_lat, lon=center_lon),
-            zoom=14.5
-        ),
+        **({"map": map_cfg} if use_new_map else {"mapbox": map_cfg}),
         margin=dict(l=0, r=0, t=30, b=0),
     )
     return apply_theme(fig, f"🏎️ Dynamic Slip Angle Map (Lap {int(d['LapNumber'].iloc[0])})", mode)

@@ -5,6 +5,9 @@ import gzip
 from pathlib import Path
 import pandas as pd
 
+from utils.logger import get_logger
+log = get_logger(__name__)
+
 DB_PATH = Path("iracing_sessions.db")
 SAVED_DATA_DIR = Path("saved_sessions")
 SAVED_DATA_DIR.mkdir(exist_ok=True)
@@ -144,7 +147,7 @@ def db_save_session(meta: dict, lt_df: pd.DataFrame,
             metrics = extract_session_metrics(telemetry_df)
             db_save_metrics(session_id, metrics)
         except Exception as e:
-            print(f"Failed to extract session metrics: {e}")
+            log.error(f"Failed to extract session metrics: {e}")
 
     return session_id
 
@@ -165,7 +168,7 @@ def db_load_session_data(session_id: int):
             data = pickle.load(f)
         return data["df"], data["meta"]
     except Exception as e:
-        print(f"Error loading session {session_id}: {e}")
+        log.error(f"Error loading session {session_id}: {e}")
         return None, None
 
 def db_delete_session(session_id: int):
@@ -178,7 +181,7 @@ def db_delete_session(session_id: int):
         fpath = Path(row[0])
         if fpath.exists():
             try: fpath.unlink()
-            except Exception as e: print(f"Delete file error: {e}")
+            except Exception as e: log.error(f"Delete file error: {e}")
 
     cur.execute("DELETE FROM setups WHERE session_id=?", (session_id,))
     cur.execute("DELETE FROM annotations WHERE session_id=?", (session_id,))

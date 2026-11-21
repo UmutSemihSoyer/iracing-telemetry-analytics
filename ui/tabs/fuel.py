@@ -76,8 +76,8 @@ def _render_fuel(dfs, metas=None, mode="dark"):
         html.Div(style=C_, children=[
             html.Div("🧮 Pit window", className="section-title", style={"color": t["accent"], "fontSize": "13px"}),
             html.Div(style={"display": "flex", "gap": "12px", "marginBottom": "8px"}, children=[
-                dcc.Input(id="fuel-tank-input", type="number", min=1, placeholder="Tank (L)", style=inp("120px")),
-                dcc.Input(id="fuel-laps-left-input", type="number", min=0, placeholder="Race laps left", style=inp("140px")),
+                dcc.Input(id="fuel-tank-input", type="number", min=1, placeholder="Tank (L)", className="fuel-input", style=inp("130px")),
+                dcc.Input(id="fuel-laps-left-input", type="number", min=0, placeholder="Race laps left", className="fuel-input", style=inp("160px")),
             ]),
             html.Div(id="fuel-pit-window-out", children=pit_window_children(dfs, None, None, mode)),
         ]),

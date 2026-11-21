@@ -1,0 +1,432 @@
+{
+ "..dl-pdf.data...pdf-btn.children..": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"pdf-btn\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"theme-store\", \"property\": \"data\"}"
+  ]
+ },
+ "..folder-status.children...ibt-selector-area.children..": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"scan-btn\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"folder-input\", \"property\": \"value\"}",
+   "{\"id\": \"theme-store\", \"property\": \"data\"}"
+  ]
+ },
+ "..folder-status.children@037ad4e69313797d4b7bd5ca6f62e4f965633d1989387cd3696477cdde53dfee...ibt-selector-area.children@037ad4e69313797d4b7bd5ca6f62e4f965633d1989387cd3696477cdde53dfee..": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"electron-file-paths\", \"property\": \"data\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"theme-store\", \"property\": \"data\"}"
+  ]
+ },
+ "..sectors-mini-sector-graph.figure...sectors-corner-comparison.figure...sectors-mini-sector-table-container.children..": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"sectors-mini-sector-ref-mode\", \"property\": \"value\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"theme-store\", \"property\": \"data\"}"
+  ]
+ },
+ "..session-id-store.data...upload-status.children@6a72d383e983ebedd603fa83b8bd1f009b0b2a67adb1bfdace1992695f2ee3e4..": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"save-db-btn\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"compound-dd\", \"property\": \"value\"}"
+  ]
+ },
+ "..session-id-store.data@7258f22f88f36717e60d7b57321a41e01ce08f0fc891fa0eff0c5e04eaa4c077...tab-content.children@7258f22f88f36717e60d7b57321a41e01ce08f0fc891fa0eff0c5e04eaa4c077...upload-status.children@7258f22f88f36717e60d7b57321a41e01ce08f0fc891fa0eff0c5e04eaa4c077...tabs.value@7258f22f88f36717e60d7b57321a41e01ce08f0fc891fa0eff0c5e04eaa4c077..": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"{\\\"index\\\":[\\\"ALL\\\"],\\\"type\\\":\\\"restore-btn\\\"}\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"theme-store\", \"property\": \"data\"}"
+  ]
+ },
+ "..tab-content.children...status.children...status.style...upload-status.children...go-btn.children..": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"go-btn\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"compound-dd\", \"property\": \"value\"}",
+   "{\"id\": \"downsample-dd\", \"property\": \"value\"}",
+   "{\"id\": \"nm1\", \"property\": \"value\"}",
+   "{\"id\": \"nm2\", \"property\": \"value\"}",
+   "{\"id\": \"nm3\", \"property\": \"value\"}",
+   "{\"id\": \"nm4\", \"property\": \"value\"}",
+   "{\"id\": \"nm5\", \"property\": \"value\"}",
+   "{\"id\": \"nm6\", \"property\": \"value\"}",
+   "{\"id\": \"theme-store\", \"property\": \"data\"}",
+   "{\"id\": \"unit-store\", \"property\": \"data\"}",
+   "{\"id\": \"{\\\"index\\\":[\\\"ALL\\\"],\\\"type\\\":\\\"box-path-store\\\"}\", \"property\": \"data\"}",
+   "{\"id\": \"{\\\"index\\\":[\\\"ALL\\\"],\\\"type\\\":\\\"up-box\\\"}\", \"property\": \"contents\"}",
+   "{\"id\": \"{\\\"index\\\":[\\\"ALL\\\"],\\\"type\\\":\\\"up-box\\\"}\", \"property\": \"filename\"}"
+  ]
+ },
+ "..tab-content.children@01988c1f822a297d38627a2c3087f17b65880190cee1a1065ad2ddb67c470318...upload-status.children@01988c1f822a297d38627a2c3087f17b65880190cee1a1065ad2ddb67c470318..": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"{\\\"index\\\":[\\\"ALL\\\"],\\\"type\\\":\\\"delete-btn\\\"}\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"theme-store\", \"property\": \"data\"}"
+  ]
+ },
+ "..tab-content.children@767b8a19e4ec35da915d4d2aa36b5b0f9e4a3c8188bd9e4bcba450ef7d8c1cdc...upload-status.children@767b8a19e4ec35da915d4d2aa36b5b0f9e4a3c8188bd9e4bcba450ef7d8c1cdc..": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"load-selected-btn\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"compound-dd\", \"property\": \"value\"}",
+   "{\"id\": \"downsample-dd\", \"property\": \"value\"}",
+   "{\"id\": \"ibt-file-dd\", \"property\": \"value\"}",
+   "{\"id\": \"theme-store\", \"property\": \"data\"}",
+   "{\"id\": \"unit-store\", \"property\": \"data\"}"
+  ]
+ },
+ "..theme-store.data...theme-btn.children...root.style..": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"theme-btn\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"theme-store\", \"property\": \"data\"}"
+  ]
+ },
+ "brakes-multi-comparison-graph.figure": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"brakes-turn-selector\", \"property\": \"value\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"theme-store\", \"property\": \"data\"}"
+  ]
+ },
+ "color-store.data": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"clr-best\", \"property\": \"value\"}",
+   "{\"id\": \"clr-inlap\", \"property\": \"value\"}",
+   "{\"id\": \"clr-invalid\", \"property\": \"value\"}",
+   "{\"id\": \"clr-outlap\", \"property\": \"value\"}",
+   "{\"id\": \"clr-reset\", \"property\": \"value\"}",
+   "{\"id\": \"clr-safety\", \"property\": \"value\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "dl-zip.data": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"snap-btn\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"annotation-store\", \"property\": \"data\"}",
+   "{\"id\": \"theme-store\", \"property\": \"data\"}",
+   "{\"id\": \"unit-store\", \"property\": \"data\"}"
+  ]
+ },
+ "electron-drop-zone.id": {
+  "clientside": true,
+  "inputs": [
+   "{\"id\": \"electron-drop-zone\", \"property\": \"id\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "electron-file-paths.data": {
+  "clientside": true,
+  "inputs": [
+   "{\"id\": \"electron-browse-files-btn\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "electron-file-paths.data@687dbedef8bcaef7b032dff32de2bdf2bac2c8f1ef4c704a04b39ce02e56d7a2": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"electron-file-paths-hidden-trigger\", \"property\": \"value\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "folder-input.value": {
+  "clientside": true,
+  "inputs": [
+   "{\"id\": \"electron-browse-folder-btn\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "folder-input.value@969b37a69774d4c9dd271bf68d3eba24127e92b24039b515a0d3c5bf413fb684": {
+  "clientside": true,
+  "inputs": [
+   "{\"id\": \"root\", \"property\": \"id\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "fuel-pit-window-out.children": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"fuel-laps-left-input\", \"property\": \"value\"}",
+   "{\"id\": \"fuel-tank-input\", \"property\": \"value\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"theme-store\", \"property\": \"data\"}"
+  ]
+ },
+ "overview-map-graph.figure": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"overview-lap-table\", \"property\": \"selected_rows\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"overview-lap-table\", \"property\": \"data\"}",
+   "{\"id\": \"theme-store\", \"property\": \"data\"}",
+   "{\"id\": \"unit-store\", \"property\": \"data\"}"
+  ]
+ },
+ "rating-save-status.children": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"save-rating-btn\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"session-id-store\", \"property\": \"data\"}",
+   "{\"id\": \"setup-rating-radio\", \"property\": \"value\"}"
+  ]
+ },
+ "setup-delta-content.children": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"sd-session-a\", \"property\": \"value\"}",
+   "{\"id\": \"sd-session-b\", \"property\": \"value\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"theme-store\", \"property\": \"data\"}",
+   "{\"id\": \"unit-store\", \"property\": \"data\"}"
+  ]
+ },
+ "setup-save-status.children": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"setup-save-btn\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"compound-dd\", \"property\": \"value\"}",
+   "{\"id\": \"s-bb\", \"property\": \"value\"}",
+   "{\"id\": \"s-de\", \"property\": \"value\"}",
+   "{\"id\": \"s-dm\", \"property\": \"value\"}",
+   "{\"id\": \"s-dx\", \"property\": \"value\"}",
+   "{\"id\": \"s-fl-cam\", \"property\": \"value\"}",
+   "{\"id\": \"s-fl-cp\", \"property\": \"value\"}",
+   "{\"id\": \"s-fl-rh\", \"property\": \"value\"}",
+   "{\"id\": \"s-fl-spr\", \"property\": \"value\"}",
+   "{\"id\": \"s-fl-toe\", \"property\": \"value\"}",
+   "{\"id\": \"s-fr-cam\", \"property\": \"value\"}",
+   "{\"id\": \"s-fr-cp\", \"property\": \"value\"}",
+   "{\"id\": \"s-fr-rh\", \"property\": \"value\"}",
+   "{\"id\": \"s-fr-spr\", \"property\": \"value\"}",
+   "{\"id\": \"s-fr-toe\", \"property\": \"value\"}",
+   "{\"id\": \"s-fw\", \"property\": \"value\"}",
+   "{\"id\": \"s-notes\", \"property\": \"value\"}",
+   "{\"id\": \"s-rl-cp\", \"property\": \"value\"}",
+   "{\"id\": \"s-rl-spr\", \"property\": \"value\"}",
+   "{\"id\": \"s-rr-cp\", \"property\": \"value\"}",
+   "{\"id\": \"s-rr-spr\", \"property\": \"value\"}",
+   "{\"id\": \"s-rw\", \"property\": \"value\"}",
+   "{\"id\": \"session-id-store\", \"property\": \"data\"}"
+  ]
+ },
+ "tab-content.children@221148f636a7283460804ee30cce364feff0586ba87fab32c51d5dd353d15066": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"channel-gps-dd\", \"property\": \"value\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"theme-store\", \"property\": \"data\"}"
+  ]
+ },
+ "tab-content.children@89b3bb8ff336d3b40daec5d4128492827a7fce171579c1a7a760d0afd061cc0d": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"tabs\", \"property\": \"value\"}",
+   "{\"id\": \"unit-store\", \"property\": \"data\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"color-store\", \"property\": \"data\"}",
+   "{\"id\": \"session-id-store\", \"property\": \"data\"}",
+   "{\"id\": \"theme-store\", \"property\": \"data\"}"
+  ]
+ },
+ "tab-content.children@9a25f5c66311205e5e6c9b065e2fcc3ce1dec4339ec935458e75a7ec1564e51f": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"overlay-channels-dd\", \"property\": \"value\"}",
+   "{\"id\": \"overlay-laps-dd\", \"property\": \"value\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"theme-store\", \"property\": \"data\"}"
+  ]
+ },
+ "tab-content.children@c7824460a9b07a6b7d2a14e24909d57ca38b5faed18a6319f7473e105beb46a4": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"tire-type-dd\", \"property\": \"value\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"theme-store\", \"property\": \"data\"}",
+   "{\"id\": \"unit-store\", \"property\": \"data\"}"
+  ]
+ },
+ "up-label-1.children": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"up1\", \"property\": \"contents\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "up-label-1.children@8880e7f8dc71178d72a4ee2f8b342321245b8484a1ed79798a72d131ca730d49": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"up1\", \"property\": \"filename\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "up-label-2.children": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"up2\", \"property\": \"contents\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "up-label-2.children@92686723fb31a6786c2beb95e92501593410504232f9a2f62dfc340108a388dc": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"up2\", \"property\": \"filename\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "up-label-3.children": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"up3\", \"property\": \"contents\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "up-label-3.children@cbd9821c35fd9143a0ad9d3b0dee1e958eee40bcf60d1dacd4279d219b4860c9": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"up3\", \"property\": \"filename\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "up-label-4.children": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"up4\", \"property\": \"contents\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "up-label-4.children@8037a61431700a0992ccc311a86e7334b2f021ccee1fc6ed598aa649b5ac6380": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"up4\", \"property\": \"filename\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "up-label-5.children": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"up5\", \"property\": \"contents\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "up-label-5.children@7a323edea51aa09c24df7a4a8eb4b2ac0fd85be47604dca3c2fb872b1b8e0414": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"up5\", \"property\": \"filename\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "up-label-6.children": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"up6\", \"property\": \"contents\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "up-label-6.children@5f445ffb51afc8bc99d7527834c3ab0da667d6bfb0b27cb4547bee48b185f2a7": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"up6\", \"property\": \"filename\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "{\"index\":[\"MATCH\"],\"type\":\"box-path-store\"}.data": {
+  "clientside": true,
+  "inputs": [
+   "{\"id\": \"{\\\"index\\\":[\\\"MATCH\\\"],\\\"type\\\":\\\"electron-box-browse\\\"}\", \"property\": \"n_clicks\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": []
+ },
+ "{\"index\":[\"MATCH\"],\"type\":\"up-label\"}.children": {
+  "clientside": false,
+  "inputs": [
+   "{\"id\": \"{\\\"index\\\":[\\\"MATCH\\\"],\\\"type\\\":\\\"box-path-store\\\"}\", \"property\": \"data\"}",
+   "{\"id\": \"{\\\"index\\\":[\\\"MATCH\\\"],\\\"type\\\":\\\"up-box\\\"}\", \"property\": \"contents\"}"
+  ],
+  "prevent_initial_call": false,
+  "state": [
+   "{\"id\": \"{\\\"index\\\":[\\\"MATCH\\\"],\\\"type\\\":\\\"up-label\\\"}\", \"property\": \"id\"}"
+  ]
+ }
+}

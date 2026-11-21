@@ -414,3 +414,9 @@ button:active {
 #electron-drop-zone:active {
   transform: scale(0.98);
 }
+
+
+/* Fuel & Stints: sayı kutularında tarayıcı spinner'ını gizle, tema ile uyumlu tut */
+.fuel-input::-webkit-outer-spin-button,
+.fuel-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.fuel-input { -moz-appearance: textfield; appearance: textfield; }

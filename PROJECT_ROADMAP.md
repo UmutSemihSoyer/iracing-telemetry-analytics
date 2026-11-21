@@ -11,8 +11,8 @@ Bu döküman, projenin mevcut durumu, yapılması gereken teknik iyileştirmeler
 | 0 | Git hijyeni, .gitignore, yol haritası güncelleme | ✅ |
 | 1 | Sentetik veriyle testler: `lap_classifier`, `detect_stints`, `predict_fuel_strategy`; CI'da coverage; gerçek .ibt ile duman testi | ✅ |
 | 2 | Yakıt/Stint sekmesi: tur başı tüketim, pit penceresi, pit durak analizi, stint karşılaştırma (sürücü değişimi tespiti: tek dosyada ayırt edilemez, Faz 5'te dosya bazlı) | ✅ |
-| 3 | `app.py`'yi `ui/callbacks` modüllerine bölme, logging (`utils/logger`), `except:` temizliği, büyük dosya performansı | ⏳ |
-| 4 | Teorik en iyi tur, safety car tespiti, apex/fren noktası işaretleri | ⏳ |
+| 3 | `app.py`'yi `ui/callbacks` modüllerine bölme ✅, logging (`utils/logger`) ✅, `except:` temizliği ✅, sekme hata yönetimi ✅; büyük dosya performansı (lazy loading) ⏳ | 🟡 |
+| 4 | Safety car tespiti, apex/fren noktası işaretleri (teorik en iyi tur zaten mevcut) | ⏳ |
 | 5 | Takım entegrasyonu: AutoTelemetry ile inen çok sürücülü dosyaların toplu analizi, sürücü karşılaştırma | ⏳ |
 | 6 | ML (anomali, setup sınıflandırma) | ⏳ |
 
@@ -39,7 +39,7 @@ Bu döküman, projenin mevcut durumu, yapılması gereken teknik iyileştirmeler
 - [ ] **Corner Zoom Overlay**: Tıklanan virajın büyütülmüş hali ve sürüş çizgilerinin (Line comparison) kıyaslanması.
 - [ ] **G-Force Heatmap**: Pist üzerindeki yanal ve boylamsal G yüklerinin ısı haritası olarak gösterilmesi.
 - [ ] **Apex Kaçırma Analizi**: İdeal hat ile sürücünün izi arasındaki mesafenin ölçümü.
-- [ ] **Theoretical Best Lap (Stitched)**: Oturumdaki en iyi sektörlerin birleştirilip "mükemmel tur" zamanının hesaplanması.
+- [x] **Theoretical Best Lap (Stitched)**: Overview'da "Optimal Lap" olarak mevcut (`calculate_optimal_lap_time`); Sector Map'te bireysel/kolektif optimal.
 
 ---
 

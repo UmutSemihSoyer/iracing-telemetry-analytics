@@ -88,3 +88,14 @@ graph TD
     H --> I[Arayüz Güncelleme - Dash Callbacks]
     I --> J[Görsel Grafikler - Plotly]
 ```
+
+## Uygulama katmanı (Faz 3 sonrası)
+
+```
+main.py / app.py        giriş noktaları (layout + callback modüllerini bağlar)
+app_context.py          paylaşılan importlar, bayraklar, yardımcılar, _DATA, Dash `app` nesnesi
+ui/callbacks/           ui_ · data_ · tab_ · session_ · export_callbacks.py (+ upload_callbacks.py)
+ui/tabs/                her sekme için render fonksiyonu
+tests/                  birim + sentetik veri + callback altın kopyası + HTTP uçtan uca testleri
+```
+Callback değiştirince: `python -m tests.callback_snapshot > tests/golden_callbacks.json`.
