@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added (Faz 5)
+- 👥 **Team** sekmesi: aynı pist için yüklenen birden çok dosyayı karşılaştırır — sürücü tablosu (en iyi/medyan tur, tutarlılık, yakıt/tur, azami hız, fark), en iyi tur farkı grafiği ve pist dilimi (20 dilim) × sürücü ısı haritası (en hızlıya göre kaybedilen süre). Farklı pistler karışırsa uyarır; aynı sürücünün birden çok dosyası `#n` ile ayrılır.
+- `services/team_service.py`, `plotting/team.py`, `ui/tabs/team.py` ve testleri.
+
 ### Added (Faz 4)
 - 🎯 **Apex & Braking Points** haritası (Sectors sekmesi): en iyi turda her viraj için fren başlangıcı (▼) ve apex (●, minimum hız). `services/track_markers.py`, `plotting/gps_maps.fig_apex_brake_map`, testleri.
 - `SessionFlags` ve `PaceMode` kanalları artık dashboard DataFrame'ine alınıyor.

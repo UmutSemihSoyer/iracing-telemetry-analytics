@@ -46,7 +46,7 @@ import os
 import pytest
 
 TABS = ["overview", "sectors", "channel_gps", "overlay", "brakes", "dynamics", "driving_style",
-        "tire", "ai_engineer", "setup", "setup_advisor", "setup_delta", "database", "fuel"]
+        "tire", "ai_engineer", "setup", "setup_advisor", "setup_delta", "database", "fuel", "team"]
 
 
 @pytest.mark.parametrize("tab", TABS)
