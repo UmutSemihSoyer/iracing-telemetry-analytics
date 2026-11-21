@@ -42,3 +42,22 @@ def test_picks_largest_file_not_newest(tmp_path):
     tiny_new = touch(tmp_path / "Ali" / "c_spa 2026-02-01 10-00-00.ibt", 200)
     g = group_by_track([big, tiny_new], str(tmp_path))
     assert latest_per_driver(g, "spa") == [big]
+
+
+def test_load_ibt_from_path_uses_given_driver_name(monkeypatch, tmp_path):
+    import pandas as pd
+    import services.telemetry_service as ts
+
+    class FakeIBT:
+        meta = {"driver_name": "recorder"}
+        def get_setup_dict(self): return {}
+
+    monkeypatch.setattr(ts, "IBT_OK", True)
+    monkeypatch.setattr(ts, "IBTFile", lambda p: FakeIBT())
+    monkeypatch.setattr(ts, "ibt_to_dashboard_df", lambda ibt, downsample=1: pd.DataFrame({"x": [1]}))
+    monkeypatch.setattr(ts, "_enrich", lambda df: df)
+    p = tmp_path / "Ali" / "Spa" / "c_spa 2026-01-01 10-00-00.ibt"
+    df, meta = ts.load_ibt_from_path(str(p), driver_name="Ali")
+    assert df["Driver"].iloc[0] == "Ali" and meta["driver_name"] == "Ali"
+    df, meta = ts.load_ibt_from_path(str(p))               # eski davranış: klasör adı
+    assert meta["driver_name"] == "Spa"

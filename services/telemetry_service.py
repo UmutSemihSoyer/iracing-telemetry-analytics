@@ -218,7 +218,7 @@ def load_file(contents, filename, driver_name="Driver", downsample=1):
     return _enrich(df), meta
 
 
-def load_ibt_from_path(path: str, downsample: int = 1) -> tuple:
+def load_ibt_from_path(path: str, downsample: int = 1, driver_name: str = None) -> tuple:
     if not IBT_OK: return None, {}
     ibt  = IBTFile(path)
     df   = ibt_to_dashboard_df(ibt, downsample=downsample)
@@ -232,7 +232,9 @@ def load_ibt_from_path(path: str, downsample: int = 1) -> tuple:
     parent_dir = file_path.parent.name
     ignore_folders = {"", ".", "telemetry", "iracing", "data", "sessions", "iracingf1", "desktop"}
     
-    if parent_dir and parent_dir.lower() not in ignore_folders:
+    if driver_name:
+        pass                      # çağıran biliyor (ör. takım klasörü: kök/<sürücü>/<pist>/dosya)
+    elif parent_dir and parent_dir.lower() not in ignore_folders:
         driver_name = parent_dir
     else:
         driver_name = meta.get("driver_name", "Driver")

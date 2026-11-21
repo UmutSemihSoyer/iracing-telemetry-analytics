@@ -2,7 +2,7 @@
 from app_context import *  # noqa: F401,F403
 from app_context import app, _DATA  # noqa: F401
 from app_context import _render_overview  # noqa: F401
-from services.team_loader import group_by_track, team_tracks, latest_per_driver  # noqa: F401
+from services.team_loader import group_by_track, team_tracks, latest_per_driver, driver_of  # noqa: F401
 
 from utils.logger import get_logger
 log = get_logger(__name__)
@@ -76,10 +76,11 @@ def load_team(_, track, folder, compound, downsample, mode, unit):
     if not track or not folder or not os.path.isdir(folder):
         return (no_update, 'Scan a team folder first.')
     paths = latest_per_driver(group_by_track(discover_ibts(folder), folder), track)
-    return _load_paths(paths, compound, downsample, mode, unit)
+    names = [driver_of(p, folder) for p in paths]
+    return _load_paths(paths, compound, downsample, mode, unit, names)
 
 
-def _load_paths(paths, compound, downsample, mode, unit):
+def _load_paths(paths, compound, downsample, mode, unit, driver_names=None):
     if (not paths):
         return (no_update, 'No files selected.')
     if isinstance(paths, str):
@@ -87,9 +88,10 @@ def _load_paths(paths, compound, downsample, mode, unit):
     (dfs, metas, tas) = ([], [], [])
     preset = TYRE_PRESETS.get(compound, TYRE_PRESETS['slick_medium'])
     last_error = None
-    for path in paths[:6]:
+    for k, path in enumerate(paths[:6]):
         try:
-            (df, meta) = load_ibt_from_path(path, downsample=downsample)
+            (df, meta) = load_ibt_from_path(path, downsample=downsample,
+                                            driver_name=(driver_names[k] if driver_names else None))
             if (df is None):
                 continue
             dfs.append(df)

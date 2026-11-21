@@ -70,7 +70,7 @@ def _switch_tab_impl(tab, unit, mode, session_id, colors):
         return _render_tire_tab(dfs, mode, unit=unit)
     if (tab == 'team'):
         from ui.tabs.team import _render_team
-        return _render_team(dfs, mode)
+        return _render_team(dfs, mode, metas)
     if (tab == 'fuel'):
         return _render_fuel(dfs, metas, mode)
     if (tab == 'ai_engineer'):

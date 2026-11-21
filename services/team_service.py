@@ -83,3 +83,33 @@ def sector_delta_matrix(dfs: list, n_bins: int = N_BINS) -> pd.DataFrame:
         return pd.DataFrame(columns=cols)
     m = pd.DataFrame(data, index=names, columns=cols)
     return m - m.min(axis=0)
+
+
+# Oturum anına bağlı (setup olmayan) alanlar: basınç/sıcaklık ölçümleri, yakıt vb.
+_SKIP_SUFFIX = ("_hot_p", "_last_temps", "_tread_remaining", "_wear")
+_SKIP_KEYS = {"tire_type", "fuel_level", "fuel"}
+
+
+def setup_diff(dfs: list, metas: list) -> pd.DataFrame:
+    """Yüklü dosyalar arasında farklı olan sayısal setup parametreleri.
+
+    Satır = parametre, sütun = sürücü (+ 'Spread' = max-min). Tanımlayıcıdır:
+    birkaç dosyayla neden-sonuç çıkarılamaz, bu yüzden korelasyon/tahmin yok.
+    """
+    if not metas or len(metas) != len(dfs):
+        return pd.DataFrame()
+    labels = _labels(dfs)
+    cols = {}
+    for lab, m in zip(labels, metas):
+        setup = (m or {}).get("auto_setup") or {}
+        cols[lab] = {k: v for k, v in setup.items()
+                     if isinstance(v, (int, float)) and not isinstance(v, bool)
+                     and k not in _SKIP_KEYS and not k.endswith(_SKIP_SUFFIX)}
+    if not any(cols.values()):
+        return pd.DataFrame()
+    t = pd.DataFrame(cols)
+    t = t[t.nunique(axis=1, dropna=True) > 1]          # yalnızca farklı olanlar
+    if t.empty:
+        return t
+    t["Spread"] = t.max(axis=1) - t.min(axis=1)
+    return t.sort_index()
