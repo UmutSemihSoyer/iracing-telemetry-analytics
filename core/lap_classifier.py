@@ -67,7 +67,9 @@ def classify_laps(df: pd.DataFrame, hz: float = 60.0) -> pd.DataFrame:
             valid_vals = next_lap_data[last_time_col].dropna()
             valid_vals = valid_vals[valid_vals > 0]
             if not valid_vals.empty:
-                lap_time_map[lap] = float(valid_vals.max())
+                # iRacing LapLastTime yeni turun ilk örneklerinde hâlâ ÖNCEKİ turun
+                # süresini gösterir; doğru değer grubun son değeridir (max() eski değeri seçebilir).
+                lap_time_map[lap] = float(valid_vals.iloc[-1])
         
         # Fallback from current lap max (with reset detection)
         if lap not in lap_time_map and curr_time_col:
