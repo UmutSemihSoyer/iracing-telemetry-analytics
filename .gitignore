@@ -48,3 +48,8 @@ build_full_report.py
 build_internship_report.py
 report_helpers.py
 assets/spexco_stamp_*.png
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/

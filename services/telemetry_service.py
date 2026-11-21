@@ -2,6 +2,7 @@ import os
 import io
 import glob
 import base64
+import numpy as np
 import pandas as pd
 from pathlib import Path
 from utils import infer_hz
@@ -36,58 +37,68 @@ def detect_laps(df):
     return classify_laps(df)
 
 
-def detect_stints(df):
+def detect_stints(df, refuel_threshold=2.0):
     """
     Groups laps into stints based on pit visits or refueling.
     Adds 'StintNumber' column to df.
+
+    Kurallar:
+      * OnPitRoad: pit'e girilen tur eski stint'te kalır, bir sonraki tur (outlap)
+        yeni stint'i başlatır. Ardışık pit turları (giriş + çıkış) TEK pit sayılır.
+      * Yakıt sıçraması: OnPitRoad kanalı yoksa (ya da pit'i açıklamıyorsa) bir turun
+        başlangıç yakıtı önceki turun sonundan `refuel_threshold` L fazlaysa yeni stint
+        o turda başlar.
+      * İlk turda pit yolunda olmak (garajdan çıkış) stint ayırmaz.
     """
-    if "StintNumber" in df.columns: return df
-    
-    stint_id = 1
-    stints = []
-    
-    # 1. Detection via OnPitRoad (Standard)
+    if "StintNumber" in df.columns:
+        return df
+
     has_pit = "OnPitRoad" in df.columns
-    # 2. Detection via Fuel Level Resets (Fallback)
-    fuel = df["FuelLevel"].values if "FuelLevel" in df.columns else []
-    
-    laps = df["LapNumber"].unique()
-    current_stint = 1
-    
-    # Map lap -> stint
+    has_fuel = "FuelLevel" in df.columns
+    laps = sorted(df["LapNumber"].unique())
+
+    pit_laps = set()
+    if has_pit:
+        per_lap = df.groupby("LapNumber")["OnPitRoad"].max()
+        pit_laps = {int(ln) for ln, v in per_lap.items() if v and v > 0}
+
     lap_to_stint = {}
-    prev_fuel = -1
-    
-    for ln in laps:
+    stint = 1
+    prev_end_fuel = None
+    prev_lap = None
+
+    for i, ln in enumerate(laps):
         lap_data = df[df["LapNumber"] == ln]
-        if lap_data.empty: continue
-        
-        # Check if pit was visited in this lap
-        in_pit = False
-        if has_pit and lap_data["OnPitRoad"].any():
-            in_pit = True
-            
-        # Check for refueling (Fuel at start of lap > Fuel at end of prev lap)
-        lap_start_fuel = lap_data["FuelLevel"].dropna().iloc[0] if len(fuel)>0 else 0
-        if prev_fuel > 0 and (lap_start_fuel - prev_fuel) > 2.0:
-            in_pit = True # We assume a pit if fuel increased by 2L+
+        if lap_data.empty:
+            continue
 
-        if in_pit and ln > 1:
-            # We only increment stint AFTER the pit lap is over 
-            # (or we can mark the pit lap as the boundary)
-            # Standard: New stint starts on the outlap
-            pass 
+        # Bu turda yeni stint başlıyor mu?
+        new_stint = False
+        if i > 0:
+            # (a) önceki tur pit turuysa ve ondan bir önceki tur pit değilse -> yeni pit
+            if prev_lap in pit_laps and (i < 2 or laps[i - 2] not in pit_laps):
+                # ilk turda garajdan çıkış stint ayırmaz
+                if i - 1 > 0:
+                    new_stint = True
+            # (b) yakıt sıçraması: pit kanalı bu geçişi açıklamıyorsa
+            if has_fuel and prev_end_fuel is not None and not new_stint:
+                start_fuel = lap_data["FuelLevel"].dropna()
+                explained = (prev_lap in pit_laps) or (ln in pit_laps)
+                if not start_fuel.empty and not explained and \
+                        (start_fuel.iloc[0] - prev_end_fuel) > refuel_threshold:
+                    new_stint = True
+        if new_stint:
+            stint += 1
 
-        lap_to_stint[ln] = current_stint
-        
-        # If we were in pits this lap, the NEXT lap starts a new stint
-        if in_pit:
-            current_stint += 1
-            
-        prev_fuel = lap_data["FuelLevel"].dropna().iloc[-1] if len(fuel)>0 else 0
-        
-    df["StintNumber"] = df["LapNumber"].map(lap_to_stint).fillna(1)
+        lap_to_stint[ln] = stint
+        if has_fuel:
+            fv = lap_data["FuelLevel"].dropna()
+            prev_end_fuel = fv.iloc[-1] if not fv.empty else prev_end_fuel
+        prev_lap = int(ln)
+
+    df["StintNumber"] = df["LapNumber"].map(lap_to_stint).fillna(1).astype(int)
     return df
+
 
 def _enrich(df):
     hz = infer_hz(df)
@@ -101,7 +112,6 @@ def _enrich(df):
         
     # Slip Angle Calculation
     if "VelocityX" in df.columns and "VelocityY" in df.columns:
-        import numpy as np
         # Avoid division by zero and extreme values
         vx = df["VelocityX"].values
         # Safe threshold to avoid infinity spikes at low speed
@@ -110,7 +120,6 @@ def _enrich(df):
         slip[v_mask] = np.degrees(np.arctan2(df["VelocityY"].values[v_mask], vx[v_mask]))
         df["SlipAngle"] = slip
     elif "LatAccel" in df.columns and "Speed" in df.columns:
-        import numpy as np
         # Approximation: LatAccel / (Speed^2 / Wheelbase) 
         # But simpler: we use LatAccel and YawRate in our UI if SlipAngle is missing
         pass
@@ -125,8 +134,10 @@ def _enrich(df):
         df.loc[(df["Throttle"]>0.05)&(df["Brake"]>0.05),"Driver_State"] = "Overlap"
     
     if "LapDistPct" in df.columns:
-        df["Micro_Sector"] = pd.cut(df["LapDistPct"], bins=20,
-                                     labels=[f"S{i:02d}" for i in range(1,21)])
+        # Sabit kenarlar: LapDistPct aralığı dejenere olsa bile (araç pitte duruyor) çökmez
+        df["Micro_Sector"] = pd.cut(df["LapDistPct"], bins=np.linspace(0.0, 1.0, 21),
+                                     labels=[f"S{i:02d}" for i in range(1,21)],
+                                     include_lowest=True)
         # Corner-based segmentation (auto-detect turns & straights)
         if CORNER_OK:
             try:
@@ -316,11 +327,11 @@ def predict_fuel_strategy(df, hz=60.0):
     safe_est = max(0, total_est - 0.5) 
 
     return {
-        "avg_per_lap": avg_consume,
-        "recent_avg": recent_consume,
-        "remaining": remaining_fuel,
-        "est_laps": safe_est,
-        "total_used": df["FuelLevel"].dropna().iloc[0] - remaining_fuel,
+        "avg_per_lap": float(avg_consume),
+        "recent_avg": float(recent_consume),
+        "remaining": float(remaining_fuel),
+        "est_laps": float(safe_est),
+        "total_used": float(df["FuelLevel"].dropna().iloc[0] - remaining_fuel),
         "laps_in_stint": len(stint_map.get(current_stint_id, [])),
         "stint_count": int(current_stint_id)
     }
