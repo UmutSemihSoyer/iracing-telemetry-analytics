@@ -272,52 +272,59 @@ def load_selected_ibts(_, paths, compound, downsample, mode, unit):
     State('unit-store', 'data'), 
     prevent_initial_call=True
 )
-def run_analysis(_, contents, filenames, names, box_paths, compound, downsample, mode, unit):
-    (dfs, metas, tas) = ([], [], [])
-    preset = TYRE_PRESETS.get(compound, TYRE_PRESETS['slick_medium'])
-    last_error = None
-    
-    # Process both standard uploads and Electron box paths
-    for i in range(6):
-        nm = names[i] or f'Driver {i+1}'
+def run_analysis(_, contents, filenames, nm1, nm2, nm3, nm4, nm5, nm6, box_paths, compound, downsample, mode, unit):
+    try:
+        names = [nm1, nm2, nm3, nm4, nm5, nm6]
+        (dfs, metas, tas) = ([], [], [])
+        preset = TYRE_PRESETS.get(compound, TYRE_PRESETS['slick_medium'])
+        last_error = None
         
-        # Priority 1: Native paths from box-path-store (Electron)
-        if i < len(box_paths) and box_paths[i]:
-            for p in box_paths[i]:
-                try:
-                    (df, meta) = load_ibt_from_path(p, downsample=downsample)
-                    if df is not None:
-                        meta['driver_name'] = nm
+        # Process both standard uploads and Electron box paths
+        for i in range(6):
+            nm = names[i] or f'Driver {i+1}'
+            
+            # Priority 1: Native paths from box-path-store (Electron)
+            if i < len(box_paths) and box_paths[i]:
+                for p in box_paths[i]:
+                    try:
+                        (df, meta) = load_ibt_from_path(p, downsample=downsample)
+                        if df is not None:
+                            meta['driver_name'] = nm
+                            dfs.append(df)
+                            metas.append(meta)
+                            if TIRE_OK:
+                                tas.append(TireAnalyzer(df, opt_range=preset['surface']))
+                    except Exception as e:
+                        last_error = str(e)
+                        print(f"Error loading native file {p}: {e}")
+            
+            # Priority 2: Standard uploads (Web or Drag-and-drop into box)
+            elif i < len(contents) and contents[i]:
+                c_list = contents[i] if isinstance(contents[i], list) else [contents[i]]
+                f_list = filenames[i] if isinstance(filenames[i], list) else [filenames[i]]
+                for (ci, fi) in zip(c_list, f_list):
+                    try:
+                        (df, meta) = load_file(ci, fi, nm, downsample=downsample)
                         dfs.append(df)
                         metas.append(meta)
                         if TIRE_OK:
                             tas.append(TireAnalyzer(df, opt_range=preset['surface']))
-                except Exception as e:
-                    last_error = str(e)
-                    print(f"Error loading native file {p}: {e}")
+                    except Exception as e:
+                        last_error = str(e)
+                        print(f'Upload error: {e}')
+                        
+        if (not dfs):
+            error_msg = f'[FAIL] {last_error}' if last_error else '[FAIL] No valid telemetry files could be loaded.'
+            return (no_update, error_msg, {'textAlign': 'center', 'color': '#FF3B5C', 'padding': '20px'}, '', '🚀 Analyse')
         
-        # Priority 2: Standard uploads (Web or Drag-and-drop into box)
-        elif i < len(contents) and contents[i]:
-            c_list = contents[i] if isinstance(contents[i], list) else [contents[i]]
-            f_list = filenames[i] if isinstance(filenames[i], list) else [filenames[i]]
-            for (ci, fi) in zip(c_list, f_list):
-                try:
-                    (df, meta) = load_file(ci, fi, nm, downsample=downsample)
-                    dfs.append(df)
-                    metas.append(meta)
-                    if TIRE_OK:
-                        tas.append(TireAnalyzer(df, opt_range=preset['surface']))
-                except Exception as e:
-                    last_error = str(e)
-                    print(f'Upload error: {e}')
-                    
-    if (not dfs):
-        error_msg = f'[FAIL] {last_error}' if last_error else '[FAIL] No valid telemetry files could be loaded.'
-        return (no_update, error_msg, {'textAlign': 'center', 'color': '#FF3B5C', 'padding': '20px'}, '', '🚀 Analyse')
-    
-    _DATA.update({'dfs': dfs, 'metas': metas, 'tas': tas, 'mode': mode})
-    total = sum((len(d) for d in dfs))
-    return (_render_overview(dfs, metas, mode, unit), '', {'display': 'none'}, f'✅ {len(dfs)} data source(s) — {total:,} rows', '🚀  Analyse')
+        _DATA.update({'dfs': dfs, 'metas': metas, 'tas': tas, 'mode': mode})
+        total = sum((len(d) for d in dfs))
+        return (_render_overview(dfs, metas, mode, unit), '', {'display': 'none'}, f'✅ {len(dfs)} data source(s) — {total:,} rows', '🚀  Analyse')
+    except Exception as e:
+        import traceback
+        err = traceback.format_exc()
+        print(err)
+        return (no_update, f"CRITICAL ERROR: {str(e)}\n\n{err}", {'color': 'red', 'whiteSpace': 'pre-wrap', 'textAlign': 'left', 'padding': '20px'}, '', '🚀 Analyse')
 
 @app.callback(Output('tab-content', 'children', allow_duplicate=True), Input('tabs', 'value'), Input('unit-store', 'data'), State('theme-store', 'data'), State('session-id-store', 'data'), State('color-store', 'data'), prevent_initial_call=True)
 def switch_tab(tab, unit, mode, session_id, colors):

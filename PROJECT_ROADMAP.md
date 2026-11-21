@@ -4,13 +4,27 @@ Bu döküman, projenin mevcut durumu, yapılması gereken teknik iyileştirmeler
 
 ---
 
+## 🗺️ 0. Güncel Faz Planı (Kasım 2026)
+
+| Faz | Kapsam | Durum |
+|-----|--------|-------|
+| 0 | Git hijyeni, .gitignore, yol haritası güncelleme | ✅ |
+| 1 | Sentetik veriyle testler: `lap_classifier`, `detect_stints`, `predict_fuel_strategy`; CI'da coverage; gerçek .ibt ile duman testi | ⏳ |
+| 2 | Yakıt/Stint sekmesi: tur başı tüketim, pit penceresi, sürücü değişimi tespiti, stint karşılaştırma | ⏳ |
+| 3 | `app.py`'yi `ui/callbacks` modüllerine bölme, logging (`utils/logger`), `except:` temizliği, büyük dosya performansı | ⏳ |
+| 4 | Teorik en iyi tur, safety car tespiti, apex/fren noktası işaretleri | ⏳ |
+| 5 | Takım entegrasyonu: AutoTelemetry ile inen çok sürücülü dosyaların toplu analizi, sürücü karşılaştırma | ⏳ |
+| 6 | ML (anomali, setup sınıflandırma) | ⏳ |
+
+---
+
 ## 🛠️ 1. Mevcut Altyapı & Teknik Borçlar (Kısa Vade)
 *Uygulamanın kararlılığını ve kullanıcı deneyimini artıracak düzeltmeler.*
 
 - [x] **Electron Masaüstü Entegrasyonu**: Native uygulama olarak çalışma yeteneği.
 - [x] **Native Dosya İşleme**: 500MB+ dosyalar için tarayıcı limitlerini aşan yerel okuma sistemi.
 - [x] **Gelişmiş Dosya Yükleme**: Drag-and-drop ve sürücü bazlı kutu sistemi.
-- [ ] **Yakıt Analizi**: `FuelLevel` kanalı üzerinden tur başına tüketim ve pit penceresi tahmini.
+- [~] **Yakıt Analizi**: `predict_fuel_strategy` ve `detect_stints` servis katmanında yazıldı; arayüze (sekme) bağlanması ve testleri Faz 1-2'de.
 - [ ] **Hata Yönetimi (Error Handling)**: Bozuk dosya veya eksik veri durumunda kullanıcıya dostane uyarılar gösterilmesi.
 - [ ] **Kanal Filtreleme Performansı**: Büyük dosyalarda (24h yarış) hızı artırmak için "Lazy Loading" veri okuma.
 - [ ] **Safety Car Tespiti**: Pace car turlarını otomatik tespit edip analiz dışı bırakma veya işaretleme.

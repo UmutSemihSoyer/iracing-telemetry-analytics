@@ -41,3 +41,10 @@ node_modules/
 electron/node_modules/
 dist/
 out/
+
+# Staj raporu ve üretici scriptler (proje dışı, kişisel)
+*.docx
+build_full_report.py
+build_internship_report.py
+report_helpers.py
+assets/spexco_stamp_*.png
