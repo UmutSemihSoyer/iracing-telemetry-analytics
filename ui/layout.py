@@ -25,6 +25,7 @@ def create_layout(is_electron: bool) -> html.Div:
                     dcc.Tab(label='🗺️ Sector Map', value='sectors', className='nav-tab', selected_className='nav-tab-active'), 
                     dcc.Tab(label='📡 Channel GPS', value='channel_gps', className='nav-tab', selected_className='nav-tab-active'), 
                     dcc.Tab(label='📈 Overlay', value='overlay', className='nav-tab', selected_className='nav-tab-active'), 
+                    dcc.Tab(label='👥 Team', value='team', className='nav-tab', selected_className='nav-tab-active'),
                     dcc.Tab(label='⛽ Fuel & Stints', value='fuel', className='nav-tab', selected_className='nav-tab-active'), 
                     dcc.Tab(label='🛑 Brakes', value='brakes', className='nav-tab', selected_className='nav-tab-active'), 
                     dcc.Tab(label='🏎️ Dynamics', value='dynamics', className='nav-tab', selected_className='nav-tab-active'), 
