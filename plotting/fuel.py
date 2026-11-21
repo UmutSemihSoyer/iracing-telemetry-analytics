@@ -67,5 +67,6 @@ def fig_stint_compare(dfs, mode="dark"):
                              marker_color=PALETTE[i % len(PALETTE)]))
     if not fig.data:
         return _empty("Stint Comparison", mode)
-    fig.update_layout(barmode="group", yaxis_title="Avg fuel per lap (L)")
+    fig.update_traces(width=0.3)      # tek stint/sürücüde dev çubuk olmasın
+    fig.update_layout(barmode="group", bargap=0.4, yaxis_title="Avg fuel per lap (L)")
     return apply_theme(fig, "Stint Comparison — average consumption", mode)
