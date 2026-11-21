@@ -13,7 +13,7 @@ Bu döküman, projenin mevcut durumu, yapılması gereken teknik iyileştirmeler
 | 2 | Yakıt/Stint sekmesi: tur başı tüketim, pit penceresi, pit durak analizi, stint karşılaştırma (sürücü değişimi tespiti: tek dosyada ayırt edilemez, Faz 5'te dosya bazlı) | ✅ |
 | 3 | `app.py`'yi `ui/callbacks` modüllerine bölme ✅, logging (`utils/logger`) ✅, `except:` temizliği ✅, sekme hata yönetimi ✅; büyük dosya performansı (lazy loading) ⏳ | 🟡 |
 | 4 | Safety car tespiti, apex/fren noktası işaretleri (teorik en iyi tur zaten mevcut) | ✅ |
-| 5 | Takım entegrasyonu: AutoTelemetry ile inen çok sürücülü dosyaların toplu analizi, sürücü karşılaştırma | 🟡 (karşılaştırma sekmesi hazır; klasörden toplu yükleme sırada) |
+| 5 | Takım entegrasyonu: AutoTelemetry ile inen çok sürücülü dosyaların toplu analizi, sürücü karşılaştırma | ✅ |
 | 6 | ML (anomali, setup sınıflandırma) | ⏳ |
 
 ---

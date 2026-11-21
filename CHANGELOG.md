@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added (Faz 5b)
+- Klasör taramasından sonra **👥 Team compare**: takım kökü (`<kök>/<sürücü>/.../*.ibt`) taranınca birden çok sürücünün sürdüğü pistler listelenir; "Load team" her sürücünün o pistteki en dolu (en büyük) dosyasını tek tıkla yükler (en fazla 6 sürücü). `services/team_loader.py` + testleri.
+
 ### Added (Faz 5)
 - 👥 **Team** sekmesi: aynı pist için yüklenen birden çok dosyayı karşılaştırır — sürücü tablosu (en iyi/medyan tur, tutarlılık, yakıt/tur, azami hız, fark), en iyi tur farkı grafiği ve pist dilimi (20 dilim) × sürücü ısı haritası (en hızlıya göre kaybedilen süre). Farklı pistler karışırsa uyarır; aynı sürücünün birden çok dosyası `#n` ile ayrılır.
 - `services/team_service.py`, `plotting/team.py`, `ui/tabs/team.py` ve testleri.

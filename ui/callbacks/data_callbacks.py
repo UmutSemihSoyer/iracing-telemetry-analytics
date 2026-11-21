@@ -2,6 +2,7 @@
 from app_context import *  # noqa: F401,F403
 from app_context import app, _DATA  # noqa: F401
 from app_context import _render_overview  # noqa: F401
+from services.team_loader import group_by_track, team_tracks, latest_per_driver  # noqa: F401
 
 from utils.logger import get_logger
 log = get_logger(__name__)
@@ -41,6 +42,15 @@ def scan_folder(_, folder, mode):
         return (f'No IBT files found in {folder}', html.Div())
     
     selector = _make_ibt_selector(ibts, t)
+    groups = team_tracks(group_by_track(ibts, folder))
+    if groups:
+        opts = [{'label': f"{trk}  ({len(drv)} drivers)", 'value': trk} for trk, drv in groups.items()]
+        selector = html.Div([selector, html.Div(style={'marginTop': '10px'}, children=[
+            html.Label('👥 Team compare — fullest file per driver on one track:',
+                       style={'fontSize': '11px', 'color': t['subtext'], 'display': 'block', 'marginBottom': '4px'}),
+            dcc.Dropdown(id='team-track-dd', options=opts, value=opts[0]['value'], clearable=False,
+                         style={'backgroundColor': '#1E2028', 'color': '#C9CDD6', 'border': 'none', 'fontSize': '11px'}),
+            html.Button('👥 Load team', id='load-team-btn', style={**btn('#1E2028', '#00D4FF'), 'marginTop': '6px'})])])
     return (f'✅ Found {len(ibts)} IBT files', selector)
 
 def _make_ibt_selector(ibts, t):
@@ -58,6 +68,18 @@ def _make_ibt_selector(ibts, t):
 
 @app.callback(Output('tab-content', 'children', allow_duplicate=True), Output('upload-status', 'children', allow_duplicate=True), Input('load-selected-btn', 'n_clicks'), State('ibt-file-dd', 'value'), State('compound-dd', 'value'), State('downsample-dd', 'value'), State('theme-store', 'data'), State('unit-store', 'data'), prevent_initial_call=True)
 def load_selected_ibts(_, paths, compound, downsample, mode, unit):
+    return _load_paths(paths, compound, downsample, mode, unit)
+
+
+@app.callback(Output('tab-content', 'children', allow_duplicate=True), Output('upload-status', 'children', allow_duplicate=True), Input('load-team-btn', 'n_clicks'), State('team-track-dd', 'value'), State('folder-input', 'value'), State('compound-dd', 'value'), State('downsample-dd', 'value'), State('theme-store', 'data'), State('unit-store', 'data'), prevent_initial_call=True)
+def load_team(_, track, folder, compound, downsample, mode, unit):
+    if not track or not folder or not os.path.isdir(folder):
+        return (no_update, 'Scan a team folder first.')
+    paths = latest_per_driver(group_by_track(discover_ibts(folder), folder), track)
+    return _load_paths(paths, compound, downsample, mode, unit)
+
+
+def _load_paths(paths, compound, downsample, mode, unit):
     if (not paths):
         return (no_update, 'No files selected.')
     if isinstance(paths, str):
