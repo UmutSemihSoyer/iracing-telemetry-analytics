@@ -11,8 +11,30 @@ from plotting.overlays import fig_lap_compare
 from plotting.gps_maps import get_plottable_channels
 from core.corner_detector import calculate_optimal_lap_time
 from utils import infer_hz
+from services.lap_anomalies import lap_anomalies
 
 # Placeholders for plotting functions that will be imported in app.py or here
+
+
+def _anomaly_card(df, mode):
+    """⚠️ Flagged laps: robust-z slow laps and laps where the car stopped/spun."""
+    t = TH(mode)
+    try:
+        a = lap_anomalies(df)
+    except Exception:   # kart asla sekmeyi çökertmesin
+        a = None
+    if a is None or a.empty:
+        body = html.Div("No unusual flying laps detected.", style={"color": t["subtext"], "fontSize": "12px"})
+    else:
+        a = a.assign(LapTime_s=a["LapTime_s"].round(3))
+        body = dash_table.DataTable(
+            id="overview-anomaly-table", columns=[{"name": c, "id": c} for c in a.columns], data=a.to_dict("records"),
+            style_header={"backgroundColor": "rgba(0,0,0,0.3)", "color": t["accent"], "fontWeight": "700", "border": "none"},
+            style_cell={"backgroundColor": "transparent", "color": t["text"], "border": "none",
+                        "fontSize": "12px", "padding": "6px 10px", "textAlign": "left"})
+    return html.Div(style={**card(mode), "marginTop": "16px"}, children=[
+        html.Div("⚠️ Flagged laps", className="section-title", style={"color": t["warn"], "fontSize": "13px"}),
+        body])
 
 
 def _render_overview(dfs, metas, mode, unit="metric", colors=None):
@@ -185,6 +207,9 @@ def _render_overview(dfs, metas, mode, unit="metric", colors=None):
                 ],
                 sort_action="native",page_size=12)]),
         
+        # Lap anomalies (slow laps, mid-lap stops/spins) for the first file
+        _anomaly_card(dfs[0], mode),
+
         # GPS/Lap Comparison Grid (Now single column/full width)
         html.Div(style={"marginTop":"16px"}, children=[
             G(fig_gps_speed(dfs,mode,unit=unit), mode, full=True, id="overview-map-graph"),
