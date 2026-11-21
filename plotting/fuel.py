@@ -70,3 +70,24 @@ def fig_stint_compare(dfs, mode="dark"):
     fig.update_traces(width=0.3)      # tek stint/sürücüde dev çubuk olmasın
     fig.update_layout(barmode="group", bargap=0.4, yaxis_title="Avg fuel per lap (L)")
     return apply_theme(fig, "Stint Comparison — average consumption", mode)
+
+
+def fig_pace_model(df, mode="dark"):
+    """Gerçek uçuş turları + model çizgisi (stint boyunca)."""
+    from services.pace_model import pace_dataset, fit_pace_model, predict_laps
+    d = pace_dataset(df)
+    m = fit_pace_model(df)
+    if m is None:
+        return _empty("Pace model", mode, "Need ≥6 clean flying laps for a pace model")
+    fig = go.Figure()
+    for k, (sn, g) in enumerate(d.groupby("StintNumber")):
+        fig.add_trace(go.Scatter(x=g["LapNumber"], y=g["LapTime_s"], mode="markers",
+                                 name=f"Stint {sn}", marker=dict(color=PALETTE[k % len(PALETTE)], size=8)))
+        fuel0 = float(g["FuelStart"].iloc[0])
+        per = float(g["FuelStart"].diff().dropna().mean() * -1) if len(g) > 1 else 0.0
+        fig.add_trace(go.Scatter(x=g["LapNumber"], y=predict_laps(m, fuel0, per, len(g)), mode="lines",
+                                 line=dict(color=PALETTE[k % len(PALETTE)], dash="dot"),
+                                 showlegend=False, hoverinfo="skip"))
+    fig.update_yaxes(title="Lap time (s)")
+    fig.update_xaxes(title="Lap")
+    return apply_theme(fig, "Pace model fit (dots = actual, dotted = model)", mode)

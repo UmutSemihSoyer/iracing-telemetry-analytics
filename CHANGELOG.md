@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added (Faz 6)
+- 🔮 **Pace model** (Fuel & Stints sekmesi): tur süresi = taban + yakıt etkisi + lastik yaşı etkisi, Huber regresyonla (aykırı turlara dayanıklı). Yakıt ve yaş aynı stint içinde doğrusal bağlı olduğundan ayrıştırılamıyorsa tek "net trend" (sn/tur) raporlanır; R² ve kalite (good/fair/weak) gösterilir. `services/pace_model.py` (`fit_pace_model`, `predict_laps`, `stint_time`), `fig_pace_model`, testleri.
+- Gerçek Watkins verisinde uyum zayıf (R² ≈ 0.03–0.06): tur süreleri gürültü baskın; arayüz bunu açıkça söyler.
+
 ### Added (Faz 5b)
 - Klasör taramasından sonra **👥 Team compare**: takım kökü (`<kök>/<sürücü>/.../*.ibt`) taranınca birden çok sürücünün sürdüğü pistler listelenir; "Load team" her sürücünün o pistteki en dolu (en büyük) dosyasını tek tıkla yükler (en fazla 6 sürücü). `services/team_loader.py` + testleri.
 

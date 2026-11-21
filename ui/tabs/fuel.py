@@ -4,7 +4,8 @@ from ui.components import card, G, inp
 from utils import TH
 from services.telemetry_service import predict_fuel_strategy
 from services.fuel_service import stint_summary, pit_stops, pit_window
-from plotting.fuel import fig_fuel_level, fig_fuel_per_lap, fig_stint_compare
+from plotting.fuel import fig_fuel_level, fig_fuel_per_lap, fig_stint_compare, fig_pace_model
+from services.pace_model import fit_pace_model
 
 
 def _kpi(label, value, color, t):
@@ -40,6 +41,23 @@ def pit_window_children(dfs, tank, laps_left, mode="dark"):
         if w["stops_needed"] is not None:
             items.append(f"Stops needed: {w['stops_needed']}")
     return html.Ul([html.Li(i) for i in items], style={"fontSize": "13px", "color": t["text"], "lineHeight": "1.8"})
+
+
+def pace_model_summary(df, mode="dark"):
+    """Pace model kartının metni: katsayılar + uyum kalitesi (zayıfsa açıkça söyler)."""
+    t = TH(mode)
+    m = fit_pace_model(df)
+    if m is None:
+        return html.Div("Need ≥6 clean flying laps for a pace model.", style={"color": t["subtext"], "fontSize": "12px"})
+    if m["separable"]:
+        lines = [f"Fuel effect: {m['fuel_s_per_l']:+.3f} s per litre", f"Tyre/age effect: {m['deg_s_per_lap']:+.3f} s per lap"]
+    else:
+        lines = [f"Net trend: {m['trend_s_per_lap']:+.3f} s per lap (fuel burn and tyre wear move together here, so they cannot be separated)"]
+    lines.append(f"Fit: R² {m['r2']:.2f} ({m['quality']}) · residual ±{m['resid_std']:.2f} s · {m['n']} laps")
+    col = t["good"] if m["quality"] == "good" else t["warn"]
+    if m["quality"] == "weak":
+        lines.append("Weak fit: lap-to-lap noise dominates; treat the trend as indicative only.")
+    return html.Ul([html.Li(x) for x in lines], style={"fontSize": "13px", "color": col, "lineHeight": "1.8"})
 
 
 def _render_fuel(dfs, metas=None, mode="dark"):
@@ -81,6 +99,11 @@ def _render_fuel(dfs, metas=None, mode="dark"):
             ]),
             html.Div(id="fuel-pit-window-out", children=pit_window_children(dfs, None, None, mode)),
         ]),
+        html.Div(style=C_, children=[
+            html.Div("🔮 Pace model (first file)", className="section-title", style={"color": t["accent"], "fontSize": "13px"}),
+            html.Div(id="fuel-pace-model-out", children=pace_model_summary(dfs[0], mode)),
+        ]),
+        G(fig_pace_model(dfs[0], mode), mode, full=True, h=340),
         G(fig_fuel_level(dfs, mode), mode, full=True, h=380),
         G(fig_fuel_per_lap(dfs, mode), mode, full=True, h=380),
         G(fig_stint_compare(dfs, mode), mode, full=True, h=340),
