@@ -39,5 +39,9 @@ if (__name__ == '__main__'):
     print('Pillow OK')
     print(f'''
   Database:      {DB_PATH}''')
-    print('\nURL:  http://127.0.0.1:8050\n')
-    app.run(debug=False, port=8050)
+    import argparse
+    _ap = argparse.ArgumentParser()
+    _ap.add_argument('--port', type=int, default=8050)
+    _args, _ = _ap.parse_known_args()      # --electron gibi bilinmeyen bayrakları yok say
+    print(f'\nURL:  http://127.0.0.1:{_args.port}\n')
+    app.run(debug=False, port=_args.port)
